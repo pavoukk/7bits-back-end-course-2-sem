@@ -34,13 +34,25 @@ public class HashMapTasksRepository implements ITasksRepository {
 
     @Override
     public void replace(String id, Task newTask) {
-        tasks.replace(id, newTask);
+        Task updatedTask = new Task(
+                newTask.getId(),
+                newTask.getText(),
+                newTask.getStatus(),
+                newTask.getCreatedAt(),
+                Timestamp.from(Instant.now(Clock.system(ZoneId.of("UTC")))).toString()
+        );
+        tasks.replace(id, updatedTask);
     }
 
     @Override
     public Task create(AddTaskRequest taskRequest) {
         Timestamp timestamp = Timestamp.from(Instant.now(Clock.system(ZoneId.of("UTC"))));
-        Task task = new Task(UUID.randomUUID().toString(), taskRequest.getText(), "inbox", timestamp.toString());
+        Task task = new Task(
+                UUID.randomUUID().toString(),
+                taskRequest.getText(),
+                "inbox", timestamp.toString(),
+                timestamp.toString()
+        );
         tasks.put(task.getId(), task);
         return task;
     }

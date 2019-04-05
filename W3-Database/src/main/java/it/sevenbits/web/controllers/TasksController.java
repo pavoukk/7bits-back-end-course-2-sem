@@ -17,6 +17,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequestMapping(value = "/tasks")
@@ -33,14 +34,13 @@ public class TasksController {
 
     @RequestMapping
             (
-                    method = RequestMethod.GET,
-                    consumes = MediaType.APPLICATION_JSON_UTF8_VALUE,
-                    produces = MediaType.APPLICATION_JSON_UTF8_VALUE
+                    method = RequestMethod.GET
             )
     @ResponseBody
     public ResponseEntity<List<Task>> getList(final @RequestParam(value = "status", required = false, defaultValue = "inbox") String status) {
         return ResponseEntity
                 .ok()
+                .contentType(MediaType.APPLICATION_JSON_UTF8)
                 .body(tasksRepository.getAllTasks(status));
     }
 
@@ -74,7 +74,7 @@ public class TasksController {
                     consumes = MediaType.APPLICATION_JSON_UTF8_VALUE
             )
     @ResponseBody
-    public ResponseEntity<Task> findTaskById(final @PathVariable(value = "id") String id) throws TasksRepositoryException {
+    public ResponseEntity<Task> findTaskById(final @PathVariable(value = "id") String id) {
         if (!idValidator.check(id)) {
             return ResponseEntity
                     .notFound()
@@ -82,7 +82,7 @@ public class TasksController {
         }
         Task task = tasksRepository.getTaskById(id);
         if (task == null) {
-           return ResponseEntity.notFound().build();
+            return ResponseEntity.notFound().build();
         }
         return ResponseEntity
                 .ok()
@@ -96,7 +96,7 @@ public class TasksController {
                     consumes = MediaType.APPLICATION_JSON_UTF8_VALUE
             )
     @ResponseBody
-    public ResponseEntity<?> updateTask(final @PathVariable(value = "id") String id, final @RequestBody @Valid UpdateTaskRequest taskRequest) throws TasksRepositoryException {
+    public ResponseEntity<?> updateTask(final @PathVariable(value = "id") String id, final @RequestBody @Valid UpdateTaskRequest taskRequest) {
         if (!idValidator.check(id)) {
             return ResponseEntity
                     .notFound()
@@ -104,7 +104,7 @@ public class TasksController {
         }
         Task old = tasksRepository.getTaskById(id);
 
-        if(old == null) {
+        if (old == null) {
             return ResponseEntity.notFound().build();
         }
 
@@ -113,7 +113,8 @@ public class TasksController {
                     .badRequest()
                     .build();
         }
-        Task newTask = new Task(old.getId(), old.getText(), taskRequest.getStatus(), old.getCreatedAt());
+        String text = taskRequest.getText() == null ? old.getText() : taskRequest.getText();
+        Task newTask = new Task(old.getId(), text, taskRequest.getStatus(), old.getCreatedAt(), old.getUpdatedAt());
         tasksRepository.replace(id, newTask);
         return ResponseEntity
                 .noContent()
@@ -127,14 +128,14 @@ public class TasksController {
                     consumes = MediaType.APPLICATION_JSON_UTF8_VALUE
             )
     @ResponseBody
-    public ResponseEntity<?> removeTask(final @PathVariable(value = "id") String id) throws TasksRepositoryException {
+    public ResponseEntity<?> removeTask(final @PathVariable(value = "id") String id) {
         if (!idValidator.check(id)) {
             return ResponseEntity
                     .notFound()
                     .build();
         }
 
-        if(tasksRepository.removeTask(id) == null) {
+        if (tasksRepository.removeTask(id) == null) {
             return ResponseEntity
                     .notFound()
                     .build();

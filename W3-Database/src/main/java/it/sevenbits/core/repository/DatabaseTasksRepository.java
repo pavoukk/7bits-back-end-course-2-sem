@@ -30,7 +30,8 @@ public class DatabaseTasksRepository implements ITasksRepository {
                         resultSet.getString("id"),
                         resultSet.getString("task"),
                         resultSet.getString("status"),
-                        resultSet.getString("created_at")
+                        resultSet.getString("created_at"),
+                        resultSet.getString("updated_at")
                 );
             }
         };
@@ -39,7 +40,7 @@ public class DatabaseTasksRepository implements ITasksRepository {
     @Override
     public List<Task> getAllTasks(final String status) {
         List<Task> tasks = jdbcOperations.query(
-                "SELECT id, task, status, created_at FROM task WHERE status = ?",
+                "SELECT id, task, status, created_at, updated_at FROM task WHERE status = ?",
                 rowMapper,
                 status
         );
@@ -54,19 +55,21 @@ public class DatabaseTasksRepository implements ITasksRepository {
         Timestamp createdAt = Timestamp.from(Instant.now(Clock.system(ZoneId.of("UTC"))));
 
         jdbcOperations.update(
-                "INSERT INTO task (id, task, status, created_at) VALUES (?, ?, ?, ?)",
+                "INSERT INTO task (id, task, status, created_at, updated_at) VALUES (?, ?, ?, ?, ?)",
                 id,
                 text,
                 status,
+                createdAt,
                 createdAt
         );
-        return new Task(id, text, status, createdAt.toString());
+        return new Task(id, text, status, createdAt.toString(), createdAt.toString());
     }
 
     @Override
     public Task getTaskById(final String id) {
         try {
-            return jdbcOperations.queryForObject("SELECT id, task, status, created_at FROM task WHERE id = ?",
+            return jdbcOperations.queryForObject(
+                    "SELECT id, task, status, created_at, updated_at FROM task WHERE id = ?",
                     rowMapper,
                     id
             );
@@ -77,8 +80,10 @@ public class DatabaseTasksRepository implements ITasksRepository {
 
     @Override
     public void replace(final String id, final Task newTask) {
-        jdbcOperations.update("UPDATE task SET status = ? WHERE id = ?",
+        jdbcOperations.update("UPDATE task SET text = ?, status = ?, updated_at = ? WHERE id = ?",
+                newTask.getText(),
                 newTask.getStatus(),
+                Timestamp.from(Instant.now(Clock.system(ZoneId.of("UTC")))),
                 id
         );
     }

@@ -11,11 +11,14 @@ public class Task {
 
     private String createdAt;
 
-    public Task(String id, String text, String status, String createdAt) {
+    private String updatedAt;
+
+    public Task(String id, String text, String status, String createdAt, String updatedAt) {
         this.id = id;
         this.text = text;
         this.status = status;
         this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
     }
 
     public String getId() {
@@ -32,6 +35,10 @@ public class Task {
 
     public String getCreatedAt() {
         return createdAt;
+    }
+
+    public String getUpdatedAt() {
+        return updatedAt;
     }
 
     @Override
