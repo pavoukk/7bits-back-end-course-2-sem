@@ -4,9 +4,15 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * The class is needed to check the correctness of a status. It has a list of correct values.
+ */
 public class StatusValidator implements IValidator {
     private List<String> statusList;
 
+    /**
+     * A constructor with no parameters.
+     */
     public StatusValidator() {
         statusList = Collections.synchronizedList(new ArrayList<>());
         statusList.add("inbox");
@@ -14,7 +20,7 @@ public class StatusValidator implements IValidator {
     }
 
     @Override
-    public boolean check(String status) {
+    public boolean check(final String status) {
         return statusList.contains(status);
     }
 }

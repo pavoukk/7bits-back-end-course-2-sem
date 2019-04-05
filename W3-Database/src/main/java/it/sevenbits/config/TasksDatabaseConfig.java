@@ -11,8 +11,15 @@ import org.springframework.jdbc.core.JdbcTemplate;
 
 import javax.sql.DataSource;
 
+/**
+ * A configuration for database.
+ */
 @Configuration
 public class TasksDatabaseConfig {
+    /**
+     * A method that creates DataSource object.
+     * @return a DataSource object.
+     */
     @Bean
     @FlywayDataSource
     @Qualifier("tasksDataSource")
@@ -21,9 +28,14 @@ public class TasksDatabaseConfig {
         return DataSourceBuilder.create().build();
     }
 
+    /**
+     * A method that creates a JdbcOperations object. It is needed to work with a database.
+     * @param tasksDataSource a DataSource object.
+     * @return created JdbcOperations object.
+     */
     @Bean
     @Qualifier("tasksJdbcOperations")
-    public JdbcOperations tasksJdbcOperations(@Qualifier("tasksDataSource") DataSource tasksDataSource) {
+    public JdbcOperations tasksJdbcOperations(final @Qualifier("tasksDataSource") DataSource tasksDataSource) {
         return new JdbcTemplate(tasksDataSource);
     }
 }

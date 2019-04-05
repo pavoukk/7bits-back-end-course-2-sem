@@ -2,6 +2,9 @@ package it.sevenbits.core.model;
 
 import java.util.Objects;
 
+/**
+ * A model of a task. It has unique id, text of the task, status and when the task was created and updated.
+ */
 public class Task {
     private String id;
 
@@ -13,7 +16,16 @@ public class Task {
 
     private String updatedAt;
 
-    public Task(String id, String text, String status, String createdAt, String updatedAt) {
+    /**
+     * A constructor with parameters.
+     *
+     * @param id        a unique identificator.
+     * @param text      text of some task.
+     * @param status    status of the task.
+     * @param createdAt creation date.
+     * @param updatedAt update date.
+     */
+    public Task(final String id, final String text, final String status, final String createdAt, final String updatedAt) {
         this.id = id;
         this.text = text;
         this.status = status;
@@ -42,9 +54,13 @@ public class Task {
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+    public boolean equals(final Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         Task task = (Task) o;
         return Objects.equals(id, task.id) &&
                 Objects.equals(text, task.text) &&

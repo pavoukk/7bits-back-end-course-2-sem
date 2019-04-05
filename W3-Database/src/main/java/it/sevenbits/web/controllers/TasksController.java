@@ -2,7 +2,6 @@ package it.sevenbits.web.controllers;
 
 import it.sevenbits.core.model.Task;
 import it.sevenbits.core.repository.ITasksRepository;
-import it.sevenbits.core.repository.exceptions.TasksRepositoryException;
 import it.sevenbits.core.service.validators.IdValidator;
 import it.sevenbits.core.service.validators.StatusValidator;
 import it.sevenbits.web.model.AddTaskRequest;
@@ -11,14 +10,21 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
-import java.util.Optional;
 
+/**
+ * It is a controller.
+ */
 @Controller
 @RequestMapping(value = "/tasks")
 public class TasksController {
@@ -26,24 +32,43 @@ public class TasksController {
     private final IdValidator idValidator;
     private StatusValidator statusValidator;
 
+    /**
+     * A constructor with one parameter.
+     *
+     * @param tasksRepository is some repository.
+     */
     public TasksController(final ITasksRepository tasksRepository) {
         this.tasksRepository = tasksRepository;
         idValidator = new IdValidator();
         statusValidator = new StatusValidator();
     }
 
-    @RequestMapping
-            (
-                    method = RequestMethod.GET
-            )
+    /**
+     * The method works with type GET. It returns all tasks that has the same status.
+     *
+     * @param status the status of needed tasks.
+     * @return a tasks list
+     */
+    @RequestMapping(method = RequestMethod.GET)
     @ResponseBody
-    public ResponseEntity<List<Task>> getList(final @RequestParam(value = "status", required = false, defaultValue = "inbox") String status) {
+    public ResponseEntity<List<Task>> getList(
+            final @RequestParam(
+                    value = "status",
+                    required = false,
+                    defaultValue = "inbox") String status
+    ) {
         return ResponseEntity
                 .ok()
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
                 .body(tasksRepository.getAllTasks(status));
     }
 
+    /**
+     * The method works with type POST. It creates a new task in repository using taskRequest info.
+     *
+     * @param taskRequest contains info for the new task.
+     * @return the new task.
+     */
     @RequestMapping
             (
                     method = RequestMethod.POST,
@@ -66,6 +91,12 @@ public class TasksController {
                 .body(createdTask);
     }
 
+    /**
+     * The method works with type GET. It returns a task that has the same id.
+     *
+     * @param id the id of needed task.
+     * @return the task.
+     */
     @RequestMapping
             (
                     method = RequestMethod.GET,
@@ -89,6 +120,13 @@ public class TasksController {
                 .body(task);
     }
 
+    /**
+     * The method works with type PATCH. It updates an existing task.
+     *
+     * @param id          the id of task to update.
+     * @param taskRequest some info that is needed to update the task.
+     * @return response status.
+     */
     @RequestMapping
             (
                     method = RequestMethod.PATCH,
@@ -96,7 +134,10 @@ public class TasksController {
                     consumes = MediaType.APPLICATION_JSON_UTF8_VALUE
             )
     @ResponseBody
-    public ResponseEntity<?> updateTask(final @PathVariable(value = "id") String id, final @RequestBody @Valid UpdateTaskRequest taskRequest) {
+    public ResponseEntity<?> updateTask(
+            final @PathVariable(value = "id") String id,
+            final @RequestBody @Valid UpdateTaskRequest taskRequest
+    ) {
         if (!idValidator.check(id)) {
             return ResponseEntity
                     .notFound()
@@ -121,6 +162,12 @@ public class TasksController {
                 .build();
     }
 
+    /**
+     * The method works with type DELETE. It deletes a task with the same id.
+     *
+     * @param id the id of task to delete.
+     * @return the deleted task.
+     */
     @RequestMapping
             (
                     method = RequestMethod.DELETE,

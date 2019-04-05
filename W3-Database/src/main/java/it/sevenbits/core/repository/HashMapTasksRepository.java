@@ -7,12 +7,17 @@ import java.sql.Timestamp;
 import java.time.Clock;
 import java.time.Instant;
 import java.time.ZoneId;
-import java.util.*;
+import java.util.Collections;
+import java.util.List;
+import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.stream.Collectors;
 
-public class HashMapTasksRepository implements ITasksRepository {
+/**
+ * The class is an implementation of ITasksRepository. It is a repository for tasks based on ConcurrentHashMap.
+ */
+public final class HashMapTasksRepository implements ITasksRepository {
     private static HashMapTasksRepository container;
     private ConcurrentMap<String, Task> tasks;
 
@@ -20,6 +25,11 @@ public class HashMapTasksRepository implements ITasksRepository {
         tasks = new ConcurrentHashMap<>();
     }
 
+    /**
+     * The class must be a singleton. It has a private constructor. The method is used to create a single object.
+     *
+     * @return a single object of the class.
+     */
     public static HashMapTasksRepository getTasksRepository() {
         if (container == null) {
             container = new HashMapTasksRepository();
@@ -28,12 +38,12 @@ public class HashMapTasksRepository implements ITasksRepository {
     }
 
     @Override
-    public Task getTaskById(String id) {
+    public Task getTaskById(final String id) {
         return tasks.get(id);
     }
 
     @Override
-    public void replace(String id, Task newTask) {
+    public void replace(final String id, final Task newTask) {
         Task updatedTask = new Task(
                 newTask.getId(),
                 newTask.getText(),
@@ -45,7 +55,7 @@ public class HashMapTasksRepository implements ITasksRepository {
     }
 
     @Override
-    public Task create(AddTaskRequest taskRequest) {
+    public Task create(final AddTaskRequest taskRequest) {
         Timestamp timestamp = Timestamp.from(Instant.now(Clock.system(ZoneId.of("UTC"))));
         Task task = new Task(
                 UUID.randomUUID().toString(),
@@ -58,7 +68,7 @@ public class HashMapTasksRepository implements ITasksRepository {
     }
 
     @Override
-    public List<Task> getAllTasks(String status) {
+    public List<Task> getAllTasks(final String status) {
         return Collections.unmodifiableList(
                 tasks.values()
                         .stream()
@@ -68,7 +78,7 @@ public class HashMapTasksRepository implements ITasksRepository {
     }
 
     @Override
-    public Task removeTask(String id) {
+    public Task removeTask(final String id) {
         return tasks.remove(id);
     }
 }
