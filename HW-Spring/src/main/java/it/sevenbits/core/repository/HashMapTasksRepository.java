@@ -3,12 +3,17 @@ package it.sevenbits.core.repository;
 import it.sevenbits.core.model.Task;
 import it.sevenbits.web.model.AddTaskRequest;
 
-import java.util.*;
+import java.util.Collections;
+import java.util.List;
+import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.stream.Collectors;
 
-public class HashMapTasksRepository implements ITasksRepository {
+/**
+ * The class is an implementation of ITasksRepository. It is a repository for tasks based on ConcurrentHashMap.
+ */
+public final class HashMapTasksRepository implements ITasksRepository {
     private static HashMapTasksRepository container;
     private ConcurrentMap<String, Task> tasks;
 
@@ -16,6 +21,11 @@ public class HashMapTasksRepository implements ITasksRepository {
         tasks = new ConcurrentHashMap<>();
     }
 
+    /**
+     * The class must be a singleton. It has a private constructor. The method is used to create a single object.
+     *
+     * @return a single object of the class.
+     */
     public static HashMapTasksRepository getTasksRepository() {
         if (container == null) {
             container = new HashMapTasksRepository();
@@ -24,24 +34,24 @@ public class HashMapTasksRepository implements ITasksRepository {
     }
 
     @Override
-    public Task getTaskById(String id) {
+    public Task getTaskById(final String id) {
         return tasks.get(id);
     }
 
     @Override
-    public void replace(String id, Task newTask) {
+    public void replace(final String id, final Task newTask) {
         tasks.replace(id, newTask);
     }
 
     @Override
-    public Task create(AddTaskRequest taskRequest) {
+    public Task create(final AddTaskRequest taskRequest) {
         Task task = new Task(UUID.randomUUID().toString(), taskRequest.getText(), "inbox");
         tasks.put(task.getId(), task);
         return task;
     }
 
     @Override
-    public List<Task> getAllTasks(String status) {
+    public List<Task> getAllTasks(final String status) {
         return Collections.unmodifiableList(
                 tasks.values()
                         .stream()
@@ -51,7 +61,7 @@ public class HashMapTasksRepository implements ITasksRepository {
     }
 
     @Override
-    public Task removeTask(String id) {
+    public Task removeTask(final String id) {
         return tasks.remove(id);
     }
 }
