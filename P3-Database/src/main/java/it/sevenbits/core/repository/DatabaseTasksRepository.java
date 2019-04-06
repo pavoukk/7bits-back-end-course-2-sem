@@ -15,11 +15,19 @@ import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
+/**
+ * The class is an implementation of ITasksRepository. It is a repository for tasks based on database.
+ */
 public class DatabaseTasksRepository implements ITasksRepository {
     private JdbcOperations jdbcOperations;
 
     private RowMapper<Task> rowMapper;
 
+    /**
+     * A constructor that takes one parameter.
+     *
+     * @param jdbcOperations is a JdbcOperations object that is used to work with some database.
+     */
     public DatabaseTasksRepository(final JdbcOperations jdbcOperations) {
         this.jdbcOperations = jdbcOperations;
         rowMapper = new RowMapper<Task>() {
@@ -64,16 +72,30 @@ public class DatabaseTasksRepository implements ITasksRepository {
 
     @Override
     public Task getTaskById(final String id) {
+        try {
+            throw new Exception();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return null;
     }
 
     @Override
     public void replace(final String id, final Task newTask) {
-        return;
+        try {
+            throw new Exception();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     public Task removeTask(final String id) {
+        try {
+            throw new Exception();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return null;
     }
 }
