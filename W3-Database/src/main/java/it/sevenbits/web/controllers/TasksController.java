@@ -76,7 +76,7 @@ public class TasksController {
                     produces = MediaType.APPLICATION_JSON_UTF8_VALUE
             )
     @ResponseBody
-    public ResponseEntity<Task> create(final @RequestBody @Valid AddTaskRequest taskRequest) {
+    public ResponseEntity<?> create(final @RequestBody @Valid AddTaskRequest taskRequest) {
         Task createdTask = tasksRepository.create(taskRequest);
         URI location = UriComponentsBuilder
                 .fromPath("/tasks/")
@@ -88,7 +88,7 @@ public class TasksController {
         return ResponseEntity
                 .created(location)
                 .headers(headers)
-                .body(createdTask);
+                .build();
     }
 
     /**
@@ -101,8 +101,7 @@ public class TasksController {
             (
                     method = RequestMethod.GET,
                     value = "/{id}",
-                    produces = MediaType.APPLICATION_JSON_UTF8_VALUE,
-                    consumes = MediaType.APPLICATION_JSON_UTF8_VALUE
+                    produces = MediaType.APPLICATION_JSON_UTF8_VALUE
             )
     @ResponseBody
     public ResponseEntity<Task> findTaskById(final @PathVariable(value = "id") String id) {
@@ -112,9 +111,11 @@ public class TasksController {
                     .build();
         }
         Task task = tasksRepository.getTaskById(id);
+
         if (task == null) {
             return ResponseEntity.notFound().build();
         }
+
         return ResponseEntity
                 .ok()
                 .body(task);
@@ -146,7 +147,8 @@ public class TasksController {
         Task old = tasksRepository.getTaskById(id);
 
         if (old == null) {
-            return ResponseEntity.notFound().build();
+            return ResponseEntity.notFound()
+                    .build();
         }
 
         if (!statusValidator.check(taskRequest.getStatus())) {
@@ -171,8 +173,7 @@ public class TasksController {
     @RequestMapping
             (
                     method = RequestMethod.DELETE,
-                    value = "/{id}",
-                    consumes = MediaType.APPLICATION_JSON_UTF8_VALUE
+                    value = "/{id}"
             )
     @ResponseBody
     public ResponseEntity<?> removeTask(final @PathVariable(value = "id") String id) {

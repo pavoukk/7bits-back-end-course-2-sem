@@ -17,19 +17,16 @@ import java.lang.annotation.RetentionPolicy;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface ValidUuid {
     /**
-     *
      * @return a message
      */
     String message() default "{invalid.uuid}";
 
     /**
-     *
      * @return .
      */
     Class<?>[] groups() default {};
 
     /**
-     *
      * @return .
      */
     Class<? extends Payload>[] payload() default {};

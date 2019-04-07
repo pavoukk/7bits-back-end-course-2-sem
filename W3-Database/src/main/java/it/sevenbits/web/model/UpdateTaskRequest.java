@@ -17,7 +17,8 @@ public class UpdateTaskRequest {
 
     /**
      * A constructor with parameters.
-     * @param text is a text of the task.
+     *
+     * @param text   is a text of the task.
      * @param status is a status of the task.
      */
     @JsonCreator

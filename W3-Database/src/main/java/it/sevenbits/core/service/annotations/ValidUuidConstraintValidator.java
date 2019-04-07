@@ -12,6 +12,7 @@ public class ValidUuidConstraintValidator implements ConstraintValidator<ValidUu
 
     /**
      * The initializator.
+     *
      * @param constraintAnnotation an annotation.
      */
     @Override
@@ -21,7 +22,8 @@ public class ValidUuidConstraintValidator implements ConstraintValidator<ValidUu
 
     /**
      * The method checks if the parameter if valid or not.
-     * @param s the parameter.
+     *
+     * @param s                          the parameter.
      * @param constraintValidatorContext the context.
      * @return true if the parameter is valid and false otherwise.
      */

@@ -14,6 +14,7 @@ import org.springframework.jdbc.core.JdbcOperations;
 public class RepositoryConfig {
     /**
      * The method returns some repository.
+     *
      * @param jdbcOperations is needed to work with database.
      * @return a repository.
      */

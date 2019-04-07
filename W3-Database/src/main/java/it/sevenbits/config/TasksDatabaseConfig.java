@@ -18,6 +18,7 @@ import javax.sql.DataSource;
 public class TasksDatabaseConfig {
     /**
      * A method that creates DataSource object.
+     *
      * @return a DataSource object.
      */
     @Bean
@@ -30,6 +31,7 @@ public class TasksDatabaseConfig {
 
     /**
      * A method that creates a JdbcOperations object. It is needed to work with a database.
+     *
      * @param tasksDataSource a DataSource object.
      * @return created JdbcOperations object.
      */
