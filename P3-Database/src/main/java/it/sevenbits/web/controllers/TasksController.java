@@ -137,8 +137,9 @@ public class TasksController {
                     consumes = MediaType.APPLICATION_JSON_UTF8_VALUE
             )
     @ResponseBody
-    public ResponseEntity<?> updateTask(final @PathVariable(value = "id") String id,
-                                        final @RequestBody @Valid UpdateTaskRequest taskRequest
+    public ResponseEntity<?> updateTask(
+            final @PathVariable(value = "id") String id,
+            final @RequestBody @Valid UpdateTaskRequest taskRequest
     ) {
         if (!idValidator.check(id)) {
             return ResponseEntity
@@ -152,13 +153,22 @@ public class TasksController {
                     .build();
         }
 
-        if (!statusValidator.check(taskRequest.getStatus())) {
+        String status = taskRequest.getStatus();
+        String text = taskRequest.getText();
+        if (!statusValidator.check(status) && status != null && !status.isEmpty()) {
             return ResponseEntity
                     .badRequest()
                     .build();
         }
-        String text = taskRequest.getText() == null ? old.getText() : taskRequest.getText();
-        Task newTask = new Task(old.getId(), text, taskRequest.getStatus(), old.getCreatedAt());
+        if ((status == null || status.isEmpty()) && (text == null || text.isEmpty())) {
+            return ResponseEntity
+                    .noContent()
+                    .build();
+        }
+        String newText = text == null ? old.getText() : text;
+        String newStatus = status == null ? old.getStatus() : status;
+
+        Task newTask = new Task(old.getId(), newText, newStatus, old.getCreatedAt());
         tasksRepository.replace(id, newTask);
         return ResponseEntity
                 .noContent()
