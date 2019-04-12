@@ -9,10 +9,8 @@ import javax.validation.constraints.NotBlank;
  * A model that contains information that is needed to update a task.
  */
 public class UpdateTaskRequest {
-    @NotBlank
     private String text;
 
-    @NotBlank
     private String status;
 
     /**
