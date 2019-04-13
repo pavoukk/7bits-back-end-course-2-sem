@@ -1,5 +1,7 @@
 package it.sevenbits.core.service.validators;
 
+import it.sevenbits.web.model.MetaDataDefault;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -9,11 +11,13 @@ import java.util.List;
  */
 public class StatusValidator implements IValidator <String> {
     private List<String> statusList;
+    private MetaDataDefault metaDataDefault;
 
     /**
      * A constructor with no parameters.
      */
-    public StatusValidator() {
+    public StatusValidator(final MetaDataDefault metaDataDefault) {
+        this.metaDataDefault = metaDataDefault;
         statusList = Collections.synchronizedList(new ArrayList<>());
         statusList.add("inbox");
         statusList.add("done");

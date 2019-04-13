@@ -4,6 +4,7 @@ import it.sevenbits.core.model.Task;
 import it.sevenbits.core.repository.ITasksRepository;
 import it.sevenbits.web.model.AddTaskRequest;
 import it.sevenbits.web.model.GetTasksResponse;
+import it.sevenbits.web.model.MetaDataDefault;
 import it.sevenbits.web.model.UpdateTaskRequest;
 import it.sevenbits.web.service.ITasksService;
 import it.sevenbits.web.service.TasksService;
@@ -35,11 +36,11 @@ public class TasksController {
      *
      * @param tasksRepository is some repository.
      */
-    public TasksController(final ITasksRepository tasksRepository) {
+    public TasksController(final ITasksRepository tasksRepository, final MetaDataDefault metaDataDefault) {
         this.tasksRepository = tasksRepository;
 //        idValidator = new IdValidator();
 //        statusValidator = new StatusValidator();
-        tasksService = new TasksService(tasksRepository);
+        tasksService = new TasksService(tasksRepository, metaDataDefault);
     }
 
     /**

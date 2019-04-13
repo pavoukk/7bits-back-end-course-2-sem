@@ -7,10 +7,7 @@ import it.sevenbits.core.service.validators.PageValidator;
 import it.sevenbits.core.service.validators.OrderValidator;
 import it.sevenbits.core.service.validators.StatusValidator;
 import it.sevenbits.core.service.validators.IdValidator;
-import it.sevenbits.web.model.AddTaskRequest;
-import it.sevenbits.web.model.GetTasksResponse;
-import it.sevenbits.web.model.MetaData;
-import it.sevenbits.web.model.UpdateTaskRequest;
+import it.sevenbits.web.model.*;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -22,63 +19,60 @@ import java.util.List;
 
 public class TasksService implements ITasksService {
     private ITasksRepository tasksRepository;
+    private MetaDataDefault metaDataDefault;
+
     private final IdValidator idValidator;
     private final StatusValidator statusValidator;
     private final OrderValidator orderValidator;
     private final PageValidator pageValidator;
     private final PageSizeValidator pageSizeValidator;
 
-    private final String STATUS_QUERY = "status";
-    private final String ORDER_QUERY = "order";
-    private final String PAGE_QUERY = "page";
-    private final String SIZE_QUERY = "size";
-
-    private final String MAIN_PATH = "/tasks";
-    private final URI DEFAULT_URI = UriComponentsBuilder.fromPath(MAIN_PATH).build().toUri();
+//    private final URI DEFAULT_URI = UriComponentsBuilder.fromPath(MAIN_PATH).build().toUri();
 
 
-    public TasksService(final ITasksRepository tasksRepository) {
+    public TasksService(final ITasksRepository tasksRepository, final MetaDataDefault metaDataDefault) {
         this.tasksRepository = tasksRepository;
+        this.metaDataDefault = metaDataDefault;
         idValidator = new IdValidator();
-        statusValidator = new StatusValidator();
+        statusValidator = new StatusValidator(metaDataDefault);
         orderValidator = new OrderValidator();
-        pageValidator = new PageValidator();
-        pageSizeValidator = new PageSizeValidator();
+        pageValidator = new PageValidator(metaDataDefault);
+        pageSizeValidator = new PageSizeValidator(metaDataDefault);
     }
 
 
     private URI buildUri(final String status, final String order, final int page, final int size) {
         if (pageValidator.check(page)) {
-            return UriComponentsBuilder.fromPath(MAIN_PATH)
-                    .queryParam(STATUS_QUERY, status)
-                    .queryParam(ORDER_QUERY, order)
-                    .queryParam(PAGE_QUERY, page)
-                    .queryParam(SIZE_QUERY, size)
+            return UriComponentsBuilder.fromPath(metaDataDefault.getQueryMainPath())
+                    .queryParam(metaDataDefault.getQueryStatus(), status)
+                    .queryParam(metaDataDefault.getQueryOrder(), order)
+                    .queryParam(metaDataDefault.getQueryPage(), page)
+                    .queryParam(metaDataDefault.getQuerySize(), size)
                     .build().toUri();
         }
-    return DEFAULT_URI;
+    return UriComponentsBuilder.fromPath(metaDataDefault.getQueryMainPath()).build().toUri();
     }
 
     @Override
     public ResponseEntity<GetTasksResponse> getTasks(final String status, final String order, final int page, final int size) {
         List<Task> result;
         MetaData metaData;
-        if (!statusValidator.check(status)
-                || !orderValidator.check(order)
-                || !pageValidator.check(page)
-                || !pageSizeValidator.check(size)) {
-            result = new ArrayList<>();
-            metaData = new MetaData(result.size(), page, size, DEFAULT_URI, DEFAULT_URI, DEFAULT_URI, DEFAULT_URI);
-            return ResponseEntity.ok()
-                    .contentType(MediaType.APPLICATION_JSON_UTF8)
-                    .body(new GetTasksResponse(result, metaData));
-        }
-        result = tasksRepository.getAllTasks(status, order, page, size);
-        URI prev = buildUri(status, order, page - 1, size);
-        URI next = buildUri(status, order, page + 1, size);
-        URI first = buildUri(status, order, 1, size);
-        URI last = buildUri(status, order, result.size() % size, size);
-        metaData = new MetaData(result.size(), page, size, prev, next, first, last);
+        String newStatus = statusValidator.check(status) ? status : metaDataDefault.getStatus();
+        String newOrder = orderValidator.check(order) ? order : metaDataDefault.getOrder();
+        int newPage = pageValidator.check(page) ? page : metaDataDefault.getPage();
+        int newSize = pageSizeValidator.check(size) ? size : metaDataDefault.getSize();
+
+        result = tasksRepository.getAllTasks(newStatus, newOrder, newPage, newSize);
+
+        int tasksListSize = result.size();
+        int nextPage = tasksListSize < newSize ? newPage : newPage + 1;
+        int lastPage = tasksListSize < newSize ? metaDataDefault.getPage() : tasksListSize / newSize;
+
+        URI prev = buildUri(newStatus, newOrder, newPage - 1, newSize);
+        URI next = buildUri(newStatus, newOrder, nextPage, newSize);
+        URI first = buildUri(newStatus, newOrder, metaDataDefault.getMinPage(), newSize);
+        URI last = buildUri(newStatus, newOrder, lastPage, newSize);
+        metaData = new MetaData(result.size(), newPage, newSize, prev, next, first, last);
 
         return ResponseEntity.ok()
                 .contentType(MediaType.APPLICATION_JSON_UTF8)

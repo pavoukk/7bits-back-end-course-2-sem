@@ -1,0 +1,45 @@
+package it.sevenbits.config;
+
+import it.sevenbits.web.model.MetaDataDefault;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.core.env.Environment;
+
+@Configuration
+@PropertySource("classpath:application.properties")
+public class MetaDataSettings {
+
+    @Autowired
+    private Environment environment;
+
+    @Bean
+    public MetaDataDefault getDefaultMetaData() {
+        String status = environment.getProperty("default.status");
+        String order = environment.getProperty("default.order");
+        String page = environment.getProperty("default.page");
+        String size = environment.getProperty("default.size");
+        String minSize = environment.getProperty("default.min-size");
+        String maxSize = environment.getProperty("default.max-size");
+        String minPage = environment.getProperty("default.min-page");
+
+        String queryStatus = environment.getProperty("query.status");
+        String queryOrder = environment.getProperty("query.order");
+        String queryPage = environment.getProperty("query.page");
+        String querySize = environment.getProperty("query.size");
+        String queryMainPath = environment.getProperty("query.main-path");
+
+        return new MetaDataDefault(status, order,
+                Integer.valueOf(page),
+                Integer.valueOf(size),
+                Integer.valueOf(minSize),
+                Integer.valueOf(maxSize),
+                Integer.valueOf(minPage),
+                queryStatus,
+                queryOrder,
+                queryPage,
+                querySize,
+                queryMainPath);
+    }
+}

@@ -1,10 +1,15 @@
 package it.sevenbits.core.service.validators;
 
+import it.sevenbits.web.model.MetaDataDefault;
+
 public class PageSizeValidator implements IValidator<Integer> {
-    private final int MIN = 10;
-    private final int MAX = 50;
+    private MetaDataDefault metaDataDefault;
+
+    public PageSizeValidator(final MetaDataDefault metaDataDefault) {
+        this.metaDataDefault = metaDataDefault;
+    }
     @Override
     public boolean check(final Integer value) {
-        return value >= MIN && value <= MAX;
+        return value >= metaDataDefault.getMinSize() && value <= metaDataDefault.getMaxSize();
     }
 }

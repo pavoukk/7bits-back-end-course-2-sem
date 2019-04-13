@@ -3,6 +3,7 @@ package it.sevenbits.web.controllers;
 import it.sevenbits.core.model.Task;
 import it.sevenbits.core.repository.ITasksRepository;
 import it.sevenbits.web.model.AddTaskRequest;
+import it.sevenbits.web.model.MetaDataDefault;
 import it.sevenbits.web.model.UpdateTaskRequest;
 import org.junit.Before;
 import org.junit.Test;
@@ -20,11 +21,13 @@ public class TasksControllerTest {
 
     private TasksController tasksController;
 
+
     @Before
     public void setUp() {
         mockTasksRepository = mock(ITasksRepository.class);
+        MetaDataDefault mockMetaDataDefault = mock(MetaDataDefault.class);
 
-        tasksController = new TasksController(mockTasksRepository);
+        tasksController = new TasksController(mockTasksRepository, mockMetaDataDefault);
     }
 
     @Test
