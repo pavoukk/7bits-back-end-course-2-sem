@@ -88,7 +88,7 @@ public class DatabaseTasksRepository implements ITasksRepository {
 
     @Override
     public void replace(final String id, final Task newTask) {
-        jdbcOperations.update("UPDATE task SET text = ?, status = ?, updated_at = ? WHERE id = ?",
+        jdbcOperations.update("UPDATE task SET task = ?, status = ?, updated_at = ? WHERE id = ?",
                 newTask.getText(),
                 newTask.getStatus(),
                 Timestamp.from(Instant.now(Clock.system(ZoneId.of("UTC")))),

@@ -6,6 +6,7 @@ import it.sevenbits.core.service.validators.IdValidator;
 import it.sevenbits.core.service.validators.StatusValidator;
 import it.sevenbits.web.model.AddTaskRequest;
 import it.sevenbits.web.model.UpdateTaskRequest;
+import it.sevenbits.web.service.TasksService;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -31,6 +32,7 @@ public class TasksController {
     private final ITasksRepository tasksRepository;
     private final IdValidator idValidator;
     private StatusValidator statusValidator;
+    private TasksService tasksService;
 
     /**
      * A constructor with one parameter.
@@ -41,6 +43,7 @@ public class TasksController {
         this.tasksRepository = tasksRepository;
         idValidator = new IdValidator();
         statusValidator = new StatusValidator();
+        tasksService = new TasksService(tasksRepository, idValidator, statusValidator);
     }
 
     /**
@@ -139,37 +142,7 @@ public class TasksController {
             final @PathVariable(value = "id") String id,
             final @RequestBody UpdateTaskRequest taskRequest
     ) {
-        if (!idValidator.check(id)) {
-            return ResponseEntity
-                    .notFound()
-                    .build();
-        }
-        Task old = tasksRepository.getTaskById(id);
-
-        if (old == null) {
-            return ResponseEntity.notFound()
-                    .build();
-        }
-
-        String status = taskRequest.getStatus();
-        String text = taskRequest.getText();
-        if (!statusValidator.check(status) && status != null && !status.isEmpty()) {
-            return ResponseEntity
-                    .badRequest()
-                    .build();
-        }
-        if ((status == null || status.isEmpty()) && (text == null || text.isEmpty())) {
-            return ResponseEntity
-                    .noContent()
-                    .build();
-        }
-        String newText = text == null ? old.getText() : text;
-        String newStatus = status == null ? old.getStatus() : status;
-        Task newTask = new Task(old.getId(), newText, newStatus, old.getCreatedAt(), old.getUpdatedAt());
-        tasksRepository.replace(id, newTask);
-        return ResponseEntity
-                .noContent()
-                .build();
+        return tasksService.updateTask(id, taskRequest);
     }
 
     /**

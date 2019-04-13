@@ -3,8 +3,6 @@ package it.sevenbits.web.model;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import javax.validation.constraints.NotBlank;
-
 /**
  * A model that contains information that is needed to update a task.
  */

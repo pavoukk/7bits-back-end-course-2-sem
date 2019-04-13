@@ -12,6 +12,7 @@ import java.sql.Timestamp;
 import java.time.Clock;
 import java.time.Instant;
 import java.time.ZoneId;
+import java.util.Collections;
 import java.util.List;
 
 import static org.junit.Assert.*;
@@ -47,7 +48,7 @@ public class DatabaseTasksRepositoryTest {
                 eq("SELECT id, task, status, created_at, updated_at FROM task WHERE status = ?"),
                 any(RowMapper.class),
                 eq(status));
-        assertEquals(mockTasksList, list);
+        assertEquals(Collections.unmodifiableList(mockTasksList), list);
     }
 
     @Test
