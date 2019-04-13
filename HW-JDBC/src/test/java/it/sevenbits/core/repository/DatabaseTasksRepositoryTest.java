@@ -2,6 +2,7 @@ package it.sevenbits.core.repository;
 
 import it.sevenbits.core.model.Task;
 import it.sevenbits.web.model.AddTaskRequest;
+import it.sevenbits.web.model.GetTasksResponse;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
@@ -12,6 +13,7 @@ import java.sql.Timestamp;
 import java.time.Clock;
 import java.time.Instant;
 import java.time.ZoneId;
+import java.util.Collections;
 import java.util.List;
 
 import static org.junit.Assert.*;
@@ -37,17 +39,26 @@ public class DatabaseTasksRepositoryTest {
         when(mockJdbcOperations.query(
                 anyString(),
                 any(RowMapper.class),
-                anyString()))
+                anyString(),
+                anyInt(),
+                anyInt()))
                 .thenReturn(mockTasksList);
 
         String status = "inbox";
+        String order = "desc";
+        int page = 1;
+        int size = 25;
+        List<Task> response = databaseTasksRepository.getAllTasks(status, order, page, size);
 //        List<Task> list = databaseTasksRepository.getAllTasks(status);
 
-//        verify(mockJdbcOperations, times(1)).query(
-//                eq("SELECT id, task, status, created_at, updated_at FROM task WHERE status = ?"),
-//                any(RowMapper.class),
-//                eq(status));
-//        assertEquals(mockTasksList, list);
+        verify(mockJdbcOperations, times(1)).query(
+                eq("SELECT id, task, status, created_at, updated_at " +
+                        "FROM task WHERE status = ? ORDER BY created_at DESC LIMIT ? OFFSET ?"),
+                any(RowMapper.class),
+                eq(status),
+                eq(size),
+                eq((page-1) * size));
+        assertEquals(Collections.unmodifiableList(mockTasksList), response);
     }
 
     @Test

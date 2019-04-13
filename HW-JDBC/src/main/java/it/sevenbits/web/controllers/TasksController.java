@@ -52,27 +52,25 @@ public class TasksController {
     @RequestMapping(method = RequestMethod.GET)
     @ResponseBody
     public ResponseEntity<GetTasksResponse> getList(
-            final @Valid @RequestParam(
+            final @RequestParam(
                     value = "status",
-                    required = false,
-                    defaultValue = "inbox") String status,
-            final @Valid @RequestParam(
+                    required = false) String status,
+            final @RequestParam(
                     value = "order",
-                    required = false,
-                    defaultValue = "desc"
+                    required = false
             ) String order,
-            final @Valid @RequestParam(
+            final @RequestParam(
                     value = "page",
-                    required = false,
-                    defaultValue = "1"
+                    required = false
             ) String page,
-            final @Valid @RequestParam (
+            final @RequestParam (
                     value = "size",
-                    required = false,
-                    defaultValue = "25"
+                    required = false
             ) String size
     ) {
-        return tasksService.getTasks(status, order, Integer.valueOf(page), Integer.valueOf(size));
+        int pageArg = page == null || page.isEmpty() ? 0 : Integer.valueOf(page);
+        int sizeArg = size == null || size.isEmpty() ? 0 : Integer.valueOf(size);
+        return tasksService.getTasks(status, order, pageArg, sizeArg);
     }
 
     /**

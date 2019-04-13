@@ -3,6 +3,7 @@ package it.sevenbits.web.controllers;
 import it.sevenbits.core.model.Task;
 import it.sevenbits.core.repository.ITasksRepository;
 import it.sevenbits.web.model.AddTaskRequest;
+import it.sevenbits.web.model.GetTasksResponse;
 import it.sevenbits.web.model.MetaDataDefault;
 import it.sevenbits.web.model.UpdateTaskRequest;
 import org.junit.Before;
@@ -30,18 +31,21 @@ public class TasksControllerTest {
         tasksController = new TasksController(mockTasksRepository, mockMetaDataDefault);
     }
 
-    @Test
+  /*  @Test
     public void getList() {
         List<Task> mockList = mock(List.class);
         String status = "inbox";
-//        when(mockTasksRepository.getAllTasks(status)).thenReturn(mockList);
-//
-//        ResponseEntity<List<Task>> response = tasksController.getList(status);
-//        verify(mockTasksRepository, times(1)).getAllTasks(status);
-//
-//        assertEquals(HttpStatus.OK, response.getStatusCode());
-//        assertEquals(mockList, response.getBody());
-    }
+        String order = "desc";
+        int page = 1;
+        int size = 25;
+        when(mockTasksRepository.getAllTasks(status, order, page, size)).thenReturn(mockList);
+
+        ResponseEntity<GetTasksResponse> response = tasksController.getList(status, order, String.valueOf(page), String.valueOf(size));
+        verify(mockTasksRepository, times(1)).getAllTasks(status, order, page, size);
+
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals(mockList, response.getBody());
+    }*/
 
     @Test
     public void create() {
