@@ -7,16 +7,22 @@ import it.sevenbits.core.service.validators.PageValidator;
 import it.sevenbits.core.service.validators.OrderValidator;
 import it.sevenbits.core.service.validators.StatusValidator;
 import it.sevenbits.core.service.validators.IdValidator;
-import it.sevenbits.web.model.*;
+import it.sevenbits.web.model.metadata.MetaData;
+import it.sevenbits.web.model.metadata.MetaDataDefault;
+import it.sevenbits.web.model.request.AddTaskRequest;
+import it.sevenbits.web.model.request.UpdateTaskRequest;
+import it.sevenbits.web.model.response.GetTasksResponse;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
-import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * A service to work with tasks repository and controller.
+ */
 public class TasksService implements ITasksService {
     private ITasksRepository tasksRepository;
     private MetaDataDefault metaDataDefault;
@@ -27,9 +33,13 @@ public class TasksService implements ITasksService {
     private final PageValidator pageValidator;
     private final PageSizeValidator pageSizeValidator;
 
-//    private final URI DEFAULT_URI = UriComponentsBuilder.fromPath(MAIN_PATH).build().toUri();
 
-
+    /**
+     * The constructor.
+     *
+     * @param tasksRepository a tasks repository.
+     * @param metaDataDefault an object that contains default values.
+     */
     public TasksService(final ITasksRepository tasksRepository, final MetaDataDefault metaDataDefault) {
         this.tasksRepository = tasksRepository;
         this.metaDataDefault = metaDataDefault;
@@ -50,7 +60,7 @@ public class TasksService implements ITasksService {
                     .queryParam(metaDataDefault.getQuerySize(), size)
                     .build().toUri();
         }
-    return UriComponentsBuilder.fromPath(metaDataDefault.getQueryMainPath()).build().toUri();
+        return UriComponentsBuilder.fromPath(metaDataDefault.getQueryMainPath()).build().toUri();
     }
 
     @Override
@@ -67,8 +77,9 @@ public class TasksService implements ITasksService {
         int tasksListSize = result.size();
         int nextPage = tasksListSize < newSize ? newPage : newPage + 1;
         int lastPage = tasksListSize < newSize ? metaDataDefault.getPage() : tasksListSize / newSize;
+        int prevPage = newPage == 1 ? newPage : newPage - 1;
 
-        URI prev = buildUri(newStatus, newOrder, newPage - 1, newSize);
+        URI prev = buildUri(newStatus, newOrder, prevPage, newSize);
         URI next = buildUri(newStatus, newOrder, nextPage, newSize);
         URI first = buildUri(newStatus, newOrder, metaDataDefault.getMinPage(), newSize);
         URI last = buildUri(newStatus, newOrder, lastPage, newSize);

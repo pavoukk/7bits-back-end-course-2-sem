@@ -1,7 +1,7 @@
 package it.sevenbits.core.repository;
 
 import it.sevenbits.core.model.Task;
-import it.sevenbits.web.model.AddTaskRequest;
+import it.sevenbits.web.model.request.AddTaskRequest;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcOperations;
 import org.springframework.jdbc.core.RowMapper;

@@ -4,9 +4,15 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class OrderValidator implements IValidator <String> {
+/**
+ * A validator of order value.
+ */
+public class OrderValidator implements IValidator<String> {
     private List<String> allowed;
 
+    /**
+     * The constructor. Creates a collection containing allowed values.
+     */
     public OrderValidator() {
         allowed = Collections.synchronizedList(new ArrayList<>());
         allowed.add("asc");

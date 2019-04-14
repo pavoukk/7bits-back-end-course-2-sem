@@ -1,11 +1,10 @@
 package it.sevenbits.web.model;
 
-import org.junit.Before;
+import it.sevenbits.web.model.request.AddTaskRequest;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 public class AddTaskRequestTest {
 

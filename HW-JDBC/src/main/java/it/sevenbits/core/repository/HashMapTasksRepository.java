@@ -1,7 +1,7 @@
 package it.sevenbits.core.repository;
 
 import it.sevenbits.core.model.Task;
-import it.sevenbits.web.model.AddTaskRequest;
+import it.sevenbits.web.model.request.AddTaskRequest;
 
 import java.sql.Timestamp;
 import java.time.Clock;
@@ -68,7 +68,7 @@ public final class HashMapTasksRepository implements ITasksRepository {
     }
 
     @Override
-    public List<Task> getAllTasks(final String status,  final String order, final int page, final int size) {
+    public List<Task> getAllTasks(final String status, final String order, final int page, final int size) {
         return Collections.unmodifiableList(
                 tasks.values()
                         .stream()

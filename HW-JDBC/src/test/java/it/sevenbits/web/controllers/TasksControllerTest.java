@@ -2,16 +2,14 @@ package it.sevenbits.web.controllers;
 
 import it.sevenbits.core.model.Task;
 import it.sevenbits.core.repository.ITasksRepository;
-import it.sevenbits.web.model.AddTaskRequest;
-import it.sevenbits.web.model.GetTasksResponse;
-import it.sevenbits.web.model.MetaDataDefault;
-import it.sevenbits.web.model.UpdateTaskRequest;
+import it.sevenbits.web.model.request.AddTaskRequest;
+import it.sevenbits.web.model.metadata.MetaDataDefault;
+import it.sevenbits.web.model.request.UpdateTaskRequest;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-import java.util.List;
 import java.util.UUID;
 
 import static org.junit.Assert.*;
@@ -31,7 +29,8 @@ public class TasksControllerTest {
         tasksController = new TasksController(mockTasksRepository, mockMetaDataDefault);
     }
 
-  /*  @Test
+    /*
+    @Test
     public void getList() {
         List<Task> mockList = mock(List.class);
         String status = "inbox";

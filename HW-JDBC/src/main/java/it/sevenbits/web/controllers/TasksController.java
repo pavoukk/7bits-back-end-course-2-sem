@@ -2,10 +2,10 @@ package it.sevenbits.web.controllers;
 
 import it.sevenbits.core.model.Task;
 import it.sevenbits.core.repository.ITasksRepository;
-import it.sevenbits.web.model.AddTaskRequest;
-import it.sevenbits.web.model.GetTasksResponse;
-import it.sevenbits.web.model.MetaDataDefault;
-import it.sevenbits.web.model.UpdateTaskRequest;
+import it.sevenbits.web.model.request.AddTaskRequest;
+import it.sevenbits.web.model.response.GetTasksResponse;
+import it.sevenbits.web.model.metadata.MetaDataDefault;
+import it.sevenbits.web.model.request.UpdateTaskRequest;
 import it.sevenbits.web.service.ITasksService;
 import it.sevenbits.web.service.TasksService;
 import org.springframework.http.MediaType;
@@ -35,6 +35,7 @@ public class TasksController {
      * A constructor with one parameter.
      *
      * @param tasksRepository is some repository.
+     * @param metaDataDefault contains all default query values.
      */
     public TasksController(final ITasksRepository tasksRepository, final MetaDataDefault metaDataDefault) {
         this.tasksRepository = tasksRepository;
@@ -47,6 +48,9 @@ public class TasksController {
      * The method works with type GET. It returns all tasks that has the same status.
      *
      * @param status the status of needed tasks.
+     * @param order  an order in which all tasks will be sorted
+     * @param page   a current page value
+     * @param size   size of the page
      * @return a tasks list
      */
     @RequestMapping(method = RequestMethod.GET)
@@ -63,7 +67,7 @@ public class TasksController {
                     value = "page",
                     required = false
             ) String page,
-            final @RequestParam (
+            final @RequestParam(
                     value = "size",
                     required = false
             ) String size

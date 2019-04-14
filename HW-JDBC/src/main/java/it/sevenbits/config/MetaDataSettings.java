@@ -1,12 +1,15 @@
 package it.sevenbits.config;
 
-import it.sevenbits.web.model.MetaDataDefault;
+import it.sevenbits.web.model.metadata.MetaDataDefault;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 
+/**
+ * The class is use to set default values for meta data from a specified file.
+ */
 @Configuration
 @PropertySource("classpath:application.properties")
 public class MetaDataSettings {
@@ -14,6 +17,11 @@ public class MetaDataSettings {
     @Autowired
     private Environment environment;
 
+    /**
+     * Creates a MetaDataDefault object with default values.
+     *
+     * @return an object full of default values.
+     */
     @Bean
     public MetaDataDefault getDefaultMetaData() {
         String status = environment.getProperty("default.status");

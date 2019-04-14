@@ -1,9 +1,9 @@
 package it.sevenbits.web.service;
 
 import it.sevenbits.core.model.Task;
-import it.sevenbits.web.model.AddTaskRequest;
-import it.sevenbits.web.model.GetTasksResponse;
-import it.sevenbits.web.model.UpdateTaskRequest;
+import it.sevenbits.web.model.request.AddTaskRequest;
+import it.sevenbits.web.model.response.GetTasksResponse;
+import it.sevenbits.web.model.request.UpdateTaskRequest;
 import org.springframework.http.ResponseEntity;
 
 /**

@@ -1,10 +1,13 @@
-package it.sevenbits.web.model;
+package it.sevenbits.web.model.metadata;
 
 import org.springframework.validation.annotation.Validated;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
+/**
+ * The class is used to store default values.
+ */
 @Validated
 public class MetaDataDefault {
     @NotBlank
@@ -43,6 +46,22 @@ public class MetaDataDefault {
     @NotBlank
     private final String queryMainPath;
 
+    /**
+     * The constructor.
+     *
+     * @param status        a status of the needed tasks.
+     * @param order         an order in which the tasks will be shown
+     * @param page          a current page number
+     * @param size          a size of the page
+     * @param minSize       a minimum allowed size of the page
+     * @param maxSize       a maximum allowed size of the page
+     * @param minPage       a minimum value of the page
+     * @param queryStatus   value of status query
+     * @param queryOrder    value of order query
+     * @param queryPage     value of page query
+     * @param querySize     value of size query
+     * @param queryMainPath value of main path query
+     */
     public MetaDataDefault(final String status,
                            final String order,
                            final int page,

@@ -1,18 +1,13 @@
 package it.sevenbits.core.repository;
 
 import it.sevenbits.core.model.Task;
-import it.sevenbits.web.model.AddTaskRequest;
-import it.sevenbits.web.model.GetTasksResponse;
+import it.sevenbits.web.model.request.AddTaskRequest;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.Mockito;
 import org.springframework.jdbc.core.JdbcOperations;
 import org.springframework.jdbc.core.RowMapper;
 
 import java.sql.Timestamp;
-import java.time.Clock;
-import java.time.Instant;
-import java.time.ZoneId;
 import java.util.Collections;
 import java.util.List;
 
@@ -57,7 +52,7 @@ public class DatabaseTasksRepositoryTest {
                 any(RowMapper.class),
                 eq(status),
                 eq(size),
-                eq((page-1) * size));
+                eq((page - 1) * size));
         assertEquals(Collections.unmodifiableList(mockTasksList), response);
     }
 
