@@ -5,11 +5,14 @@ import it.sevenbits.core.repository.ITasksRepository;
 import it.sevenbits.web.model.request.AddTaskRequest;
 import it.sevenbits.web.model.metadata.MetaDataDefault;
 import it.sevenbits.web.model.request.UpdateTaskRequest;
+import it.sevenbits.web.model.response.GetTasksResponse;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 import static org.junit.Assert.*;
@@ -17,6 +20,7 @@ import static org.mockito.Mockito.*;
 
 public class TasksControllerTest {
     private ITasksRepository mockTasksRepository;
+    private MetaDataDefault metaData;
 
     private TasksController tasksController;
 
@@ -24,27 +28,34 @@ public class TasksControllerTest {
     @Before
     public void setUp() {
         mockTasksRepository = mock(ITasksRepository.class);
-        MetaDataDefault mockMetaDataDefault = mock(MetaDataDefault.class);
+        metaData = mock(MetaDataDefault.class);
 
-        tasksController = new TasksController(mockTasksRepository, mockMetaDataDefault);
+        tasksController = new TasksController(mockTasksRepository, metaData);
     }
 
-    /*
+
     @Test
     public void getList() {
-        List<Task> mockList = mock(List.class);
+        List<Task> list = new ArrayList<>();
         String status = "inbox";
         String order = "desc";
         int page = 1;
         int size = 25;
-        when(mockTasksRepository.getAllTasks(status, order, page, size)).thenReturn(mockList);
+        when(metaData.getSize()).thenReturn(size);
+        when(metaData.getQueryStatus()).thenReturn("status");
+        when(metaData.getQueryOrder()).thenReturn("order");
+        when(metaData.getQueryPage()).thenReturn("page");
+        when(metaData.getQuerySize()).thenReturn("size");
+
+
+        when(mockTasksRepository.getAllTasks(status, order, page, size)).thenReturn(list);
 
         ResponseEntity<GetTasksResponse> response = tasksController.getList(status, order, String.valueOf(page), String.valueOf(size));
         verify(mockTasksRepository, times(1)).getAllTasks(status, order, page, size);
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertEquals(mockList, response.getBody());
-    }*/
+        assertEquals(list, response.getBody().getTasks());
+    }
 
     @Test
     public void create() {

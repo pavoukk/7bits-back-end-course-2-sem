@@ -65,6 +65,12 @@ public class DatabaseTasksRepository implements ITasksRepository {
     }
 
     @Override
+    public int getTotalCount() {
+        List<Task> tasks = jdbcOperations.query("SELECT * FROM TASK", rowMapper);
+        return tasks.size();
+    }
+
+    @Override
     public Task create(final AddTaskRequest task) {
         String id = UUID.randomUUID().toString();
         String text = task.getText();

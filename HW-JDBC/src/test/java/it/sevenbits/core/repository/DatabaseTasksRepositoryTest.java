@@ -8,6 +8,7 @@ import org.springframework.jdbc.core.JdbcOperations;
 import org.springframework.jdbc.core.RowMapper;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -29,7 +30,7 @@ public class DatabaseTasksRepositoryTest {
 
     @Test
     public void getAllTasks() {
-        List<Task> mockTasksList = mock(List.class);
+        List<Task> tasksList = new ArrayList<>();
 
         when(mockJdbcOperations.query(
                 anyString(),
@@ -37,7 +38,7 @@ public class DatabaseTasksRepositoryTest {
                 anyString(),
                 anyInt(),
                 anyInt()))
-                .thenReturn(mockTasksList);
+                .thenReturn(tasksList);
 
         String status = "inbox";
         String order = "desc";
@@ -53,7 +54,7 @@ public class DatabaseTasksRepositoryTest {
                 eq(status),
                 eq(size),
                 eq((page - 1) * size));
-        assertEquals(Collections.unmodifiableList(mockTasksList), response);
+        assertEquals(tasksList, response);
     }
 
     @Test
@@ -121,7 +122,7 @@ public class DatabaseTasksRepositoryTest {
 
 
         verify(mockJdbcOperations, times(1)).update(
-                eq("UPDATE task SET text = ?, status = ?, updated_at = ? WHERE id = ?"),
+                eq("UPDATE task SET task = ?, status = ?, updated_at = ? WHERE id = ?"),
                 eq(text),
                 eq(status),
                 any(Timestamp.class),

@@ -74,6 +74,7 @@ public class TasksService implements ITasksService {
 
         result = tasksRepository.getAllTasks(newStatus, newOrder, newPage, newSize);
 
+        int total = tasksRepository.getTotalCount();
         int tasksListSize = result.size();
         int nextPage = tasksListSize < newSize ? newPage : newPage + 1;
         int lastPage = tasksListSize < newSize ? metaDataDefault.getPage() : tasksListSize / newSize;
@@ -83,7 +84,7 @@ public class TasksService implements ITasksService {
         URI next = buildUri(newStatus, newOrder, nextPage, newSize);
         URI first = buildUri(newStatus, newOrder, metaDataDefault.getMinPage(), newSize);
         URI last = buildUri(newStatus, newOrder, lastPage, newSize);
-        metaData = new MetaData(result.size(), newPage, newSize, prev, next, first, last);
+        metaData = new MetaData(total, newPage, newSize, prev, next, first, last);
 
         return ResponseEntity.ok()
                 .contentType(MediaType.APPLICATION_JSON_UTF8)

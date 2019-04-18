@@ -5,6 +5,7 @@ import java.net.URI;
 /**
  * The class is used to store meta data bounded up with tasks list.
  */
+
 public class MetaData {
     private final int total;
 
@@ -31,6 +32,7 @@ public class MetaData {
      * @param first a link to the first page.
      * @param last  a link to the last page.
      */
+
     public MetaData(final int total,
                     final int page,
                     final int size,

@@ -78,6 +78,11 @@ public final class HashMapTasksRepository implements ITasksRepository {
     }
 
     @Override
+    public int getTotalCount() {
+        return tasks.size();
+    }
+
+    @Override
     public Task removeTask(final String id) {
         return tasks.remove(id);
     }

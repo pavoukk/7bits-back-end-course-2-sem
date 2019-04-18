@@ -21,6 +21,11 @@ public interface ITasksRepository {
     List<Task> getAllTasks(String status, String order, int page, int size);
 
     /**
+     * @return total count of tasks.
+     */
+    int getTotalCount();
+
+    /**
      * The method creates a new task in repository.
      *
      * @param task is an object that contains information for the new task.
