@@ -5,7 +5,7 @@ import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import it.sevenbits.core.model.User;
-import it.sevenbits.web.security.AuthenticatedJwtToken;
+import it.sevenbits.web.security.user_views.AuthenticatedJwtToken;
 import it.sevenbits.web.security.settings.JwtSettings;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,18 +20,26 @@ import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * It's a service that is needed to create tokens.
+ */
 @Service
 public class JsonWebTokenService implements JwtTokenService {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
     private final JwtSettings settings;
     private final String AUTHORITIES = "authorities";
 
+    /**
+     * A constructor that gets jwt settings.
+     *
+     * @param settings the settings.
+     */
     public JsonWebTokenService(final JwtSettings settings) {
         this.settings = settings;
     }
 
     @Override
-    public String createToken(User user) {
+    public String createToken(final User user) {
         logger.debug("Generating token for {}", user.getUsername());
         Instant now = Instant.now();
 
@@ -54,7 +62,7 @@ public class JsonWebTokenService implements JwtTokenService {
     }
 
     @Override
-    public Authentication parseToken(String token) {
+    public Authentication parseToken(final String token) {
         Jws<Claims> claims = Jwts.parser()
                 .setSigningKey(settings.getTokenSigningKey())
                 .parseClaimsJws(token);

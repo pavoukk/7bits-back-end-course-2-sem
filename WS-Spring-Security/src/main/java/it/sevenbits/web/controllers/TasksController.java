@@ -1,11 +1,11 @@
 package it.sevenbits.web.controllers;
 
 import it.sevenbits.core.model.Task;
-import it.sevenbits.core.repository.ITasksRepository;
-import it.sevenbits.web.model.request.AddTaskRequest;
-import it.sevenbits.web.model.response.GetTasksResponse;
+import it.sevenbits.core.repository.tasks.ITasksRepository;
+import it.sevenbits.web.model.tasks.request.AddTaskRequest;
+import it.sevenbits.web.model.tasks.response.GetTasksResponse;
 import it.sevenbits.web.model.metadata.MetaDataDefault;
-import it.sevenbits.web.model.request.UpdateTaskRequest;
+import it.sevenbits.web.model.tasks.request.UpdateTaskRequest;
 import it.sevenbits.web.service.tasks.ITasksService;
 import it.sevenbits.web.service.tasks.TasksService;
 import org.springframework.http.MediaType;

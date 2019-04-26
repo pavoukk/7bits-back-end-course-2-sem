@@ -1,7 +1,8 @@
 package it.sevenbits.core.repository;
 
 import it.sevenbits.core.model.Task;
-import it.sevenbits.web.model.request.AddTaskRequest;
+import it.sevenbits.core.repository.tasks.DatabaseTasksRepository;
+import it.sevenbits.web.model.tasks.request.AddTaskRequest;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.jdbc.core.JdbcOperations;
@@ -9,7 +10,6 @@ import org.springframework.jdbc.core.RowMapper;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import static org.junit.Assert.*;

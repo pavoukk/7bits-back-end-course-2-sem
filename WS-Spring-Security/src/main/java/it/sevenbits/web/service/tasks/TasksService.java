@@ -1,7 +1,7 @@
 package it.sevenbits.web.service.tasks;
 
 import it.sevenbits.core.model.Task;
-import it.sevenbits.core.repository.ITasksRepository;
+import it.sevenbits.core.repository.tasks.ITasksRepository;
 import it.sevenbits.core.service.validators.PageSizeValidator;
 import it.sevenbits.core.service.validators.PageValidator;
 import it.sevenbits.core.service.validators.OrderValidator;
@@ -9,9 +9,9 @@ import it.sevenbits.core.service.validators.StatusValidator;
 import it.sevenbits.core.service.validators.IdValidator;
 import it.sevenbits.web.model.metadata.MetaData;
 import it.sevenbits.web.model.metadata.MetaDataDefault;
-import it.sevenbits.web.model.request.AddTaskRequest;
-import it.sevenbits.web.model.request.UpdateTaskRequest;
-import it.sevenbits.web.model.response.GetTasksResponse;
+import it.sevenbits.web.model.tasks.request.AddTaskRequest;
+import it.sevenbits.web.model.tasks.request.UpdateTaskRequest;
+import it.sevenbits.web.model.tasks.response.GetTasksResponse;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;

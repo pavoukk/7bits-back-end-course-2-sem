@@ -1,6 +1,6 @@
 package it.sevenbits.web.model;
 
-import it.sevenbits.web.model.request.AddTaskRequest;
+import it.sevenbits.web.model.tasks.request.AddTaskRequest;
 import org.junit.Test;
 
 import static org.junit.Assert.*;

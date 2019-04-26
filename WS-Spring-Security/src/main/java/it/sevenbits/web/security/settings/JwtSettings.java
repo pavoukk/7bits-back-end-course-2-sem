@@ -6,13 +6,22 @@ import org.springframework.stereotype.Component;
 import java.nio.charset.StandardCharsets;
 import java.time.Duration;
 
-//TODO add annotations
+/**
+ * Reads jwt settings from a file.
+ */
 @Component
 public class JwtSettings {
     private final String tokenIssuer;
     private final String tokenSigningKey;
     private final int aTokenDuration;
 
+    /**
+     * A constructor.
+     *
+     * @param tokenIssuer     an issuer.
+     * @param tokenSigningKey a signing key.
+     * @param aTokenDuration  time to live for a token in minutes.
+     */
     public JwtSettings(@Value("${jwt.issuer}") final String tokenIssuer,
                        @Value("${jwt.signingKey}") final String tokenSigningKey,
                        @Value("${jwt.aTokenDuration}") final int aTokenDuration) {

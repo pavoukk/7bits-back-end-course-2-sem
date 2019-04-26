@@ -18,3 +18,17 @@ logging:
     root: INFO
     org.springframework.web: INFO
     it.sevenbits.web.security.JsonWebTokenService: DEBUG
+default:
+  status: inbox
+  order: desc
+  page: 1
+  size: 25
+  min-size: 10
+  max-size: 50
+  min-page: 1
+query:
+  status: status
+  order: order
+  page: page
+  size: size
+  main-path: /tasks
