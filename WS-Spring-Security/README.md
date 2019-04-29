@@ -1,4 +1,4 @@
-# Homework JDBC.
+# Spring Security Workshop.
 This project is a little courses work. It is a part of a big homework.
 ## Getting Started.
 To start the project, you surely need:
