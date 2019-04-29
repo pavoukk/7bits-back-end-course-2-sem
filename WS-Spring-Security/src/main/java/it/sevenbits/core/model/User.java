@@ -15,6 +15,9 @@ import java.util.List;
  * A model of a user.
  */
 public class User {
+
+    @JsonProperty("id")
+    private final String id;
     @NotBlank
     @JsonProperty("username")
     private final String username;
@@ -33,10 +36,12 @@ public class User {
      * @param password    a user's password.
      * @param authorities user's roles. Are needed to decide whether
      *                    the user has access to some resources or has not.
+     * @param id          a user's id.
      */
-    public User(final String username, final String password, final List<String> authorities) {
+    public User(final String id, final String username, final String password, final List<String> authorities) {
         this.username = username;
         this.authorities = authorities;
+        this.id = id;
         this.password = password;
     }
 
@@ -47,15 +52,15 @@ public class User {
      * @param username    user's name.
      * @param authorities user's roles. Are needed to decide whether
      *                    the user has access to some resources or has not.
+     * @param id          user's id.
      */
     @JsonCreator
-    public User(final String username, final List<String> authorities) {
+    public User(final String id, final String username, final List<String> authorities) {
         this.username = username;
         this.password = null;
+        this.id = id;
         this.authorities = authorities;
     }
-
-    //TODO: fill the javaDoc
 
     /**
      * A constructor.
@@ -71,6 +76,8 @@ public class User {
         }
 
         password = null;
+
+        id = null;
 
         authorities = new ArrayList<>();
         for (GrantedAuthority authority : authentication.getAuthorities()) {
@@ -88,5 +95,9 @@ public class User {
 
     public String getPassword() {
         return password;
+    }
+
+    public String getId() {
+        return id;
     }
 }

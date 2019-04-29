@@ -5,7 +5,7 @@ import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import it.sevenbits.core.model.User;
-import it.sevenbits.web.security.user_views.AuthenticatedJwtToken;
+import it.sevenbits.web.security.userviews.AuthenticatedJwtToken;
 import it.sevenbits.web.security.settings.JwtSettings;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,7 +27,7 @@ import java.util.stream.Collectors;
 public class JsonWebTokenService implements JwtTokenService {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
     private final JwtSettings settings;
-    private final String AUTHORITIES = "authorities";
+    private final String authorities = "authorities";
 
     /**
      * A constructor that gets jwt settings.
@@ -48,7 +48,7 @@ public class JsonWebTokenService implements JwtTokenService {
                 .setIssuedAt(Date.from(now))
                 .setSubject(user.getUsername())
                 .setExpiration(Date.from(now.plus(settings.getTokenExpiredIn())));
-        claims.put(AUTHORITIES, user.getAuthorities());
+        claims.put(authorities, user.getAuthorities());
 
         return Jwts.builder()
                 .setClaims(claims)
@@ -68,7 +68,7 @@ public class JsonWebTokenService implements JwtTokenService {
                 .parseClaimsJws(token);
 
         String subject = claims.getBody().getSubject();
-        List<String> tokenAuthorities = claims.getBody().get(AUTHORITIES, List.class);
+        List<String> tokenAuthorities = claims.getBody().get(authorities, List.class);
 
         List<GrantedAuthority> authorities = tokenAuthorities.stream()
                 .map(SimpleGrantedAuthority::new)

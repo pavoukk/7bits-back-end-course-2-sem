@@ -1,4 +1,4 @@
-package it.sevenbits.web.service.sign_in.exceptions;
+package it.sevenbits.web.service.signin.exceptions;
 
 /**
  * The exception is thrown if sign in process goes wrong.

@@ -2,7 +2,7 @@ package it.sevenbits.web.security.provider;
 
 import it.sevenbits.web.security.exceptions.JwtAuthenticationException;
 import it.sevenbits.web.security.service.JwtTokenService;
-import it.sevenbits.web.security.user_views.JwtToken;
+import it.sevenbits.web.security.userviews.JwtToken;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.AuthenticationProvider;

@@ -1,6 +1,6 @@
 package it.sevenbits.web.security.filter;
 
-import it.sevenbits.web.security.user_views.JwtToken;
+import it.sevenbits.web.security.userviews.JwtToken;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
@@ -26,7 +26,7 @@ public abstract class JwtAuthFilter extends AbstractAuthenticationProcessingFilt
     /**
      * Is needed to log events.
      */
-    protected final Logger logger = LoggerFactory.getLogger(getClass());
+    private final Logger logger = LoggerFactory.getLogger(getClass());
 
     /**
      * A constructor that gets a request matcher.

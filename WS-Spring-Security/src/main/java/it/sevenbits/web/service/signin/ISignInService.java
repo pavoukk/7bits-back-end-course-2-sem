@@ -1,8 +1,8 @@
-package it.sevenbits.web.service.sign_in;
+package it.sevenbits.web.service.signin;
 
 import it.sevenbits.core.model.User;
 import it.sevenbits.web.model.users.request.SignInRequest;
-import it.sevenbits.web.service.sign_in.exceptions.SignInFailedException;
+import it.sevenbits.web.service.signin.exceptions.SignInFailedException;
 
 /**
  * The interface describes sign in service. Contains one method.

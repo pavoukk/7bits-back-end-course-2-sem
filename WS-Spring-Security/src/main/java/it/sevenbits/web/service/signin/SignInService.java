@@ -1,9 +1,9 @@
-package it.sevenbits.web.service.sign_in;
+package it.sevenbits.web.service.signin;
 
 import it.sevenbits.core.model.User;
 import it.sevenbits.core.repository.users.IUsersRepository;
 import it.sevenbits.web.model.users.request.SignInRequest;
-import it.sevenbits.web.service.sign_in.exceptions.SignInFailedException;
+import it.sevenbits.web.service.signin.exceptions.SignInFailedException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -48,7 +48,7 @@ public class SignInService implements ISignInService {
             throw new SignInFailedException("Wrong password");
         }
 
-        return new User(user.getUsername(), user.getAuthorities());
+        return new User(user.getId(), user.getUsername(), user.getAuthorities());
     }
 
 

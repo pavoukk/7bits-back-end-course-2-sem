@@ -1,4 +1,4 @@
-package it.sevenbits.web.security.user_views;
+package it.sevenbits.web.security.userviews;
 
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 
