@@ -9,10 +9,18 @@ import java.util.List;
  */
 public interface IUsersRepository {
     /**
+     * The method searches for a user that has the same id.
+     *
+     * @param id the id.
+     * @return some user if exists.
+     */
+    User findById(String id);
+
+    /**
      * The method searches for a user that has the same name as username.
      *
      * @param username the user's name.
-     * @return the found user.
+     * @return some user if exists.
      */
     User findByUserName(String username);
 

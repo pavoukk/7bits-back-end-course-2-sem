@@ -38,14 +38,14 @@ public class UsersController {
     /**
      * The method searches for user information filtered by parameters.
      *
-     * @param username a parameter to filter users.
+     * @param id a parameter to filter users.
      * @return user's info.
      */
-    @GetMapping(value = "/{username}")
+    @GetMapping(value = "/{id}")
     @ResponseBody
-    public ResponseEntity<User> getUserInfo(final @PathVariable("username") String username) {
+    public ResponseEntity<User> getUserInfo(final @PathVariable("id") String id) {
         return Optional
-                .ofNullable(usersRepository.findByUserName(username))
+                .ofNullable(usersRepository.findById(id))
                 .map(user -> ResponseEntity.ok().body(user))
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }

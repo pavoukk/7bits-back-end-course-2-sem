@@ -31,6 +31,37 @@ public class DatabaseUsersRepository implements IUsersRepository {
 
 
     @Override
+    public User findById(final String userId) {
+        Map<String, String> rawUser = new ConcurrentHashMap<>();
+        try {
+            jdbcOperations.query(
+                    "SELECT id, username, password FROM users" +
+                            " WHERE enabled = true AND id = ?",
+                    resultSet -> {
+                        rawUser.put(userName, resultSet.getString(userName));
+                        rawUser.put(password, resultSet.getString(password));
+                    },
+                    userId);
+        } catch (IncorrectResultSizeDataAccessException e) {
+            return null;
+        }
+
+        List<String> authorities = new ArrayList<>();
+        jdbcOperations.query(
+                "SELECT id, authority FROM authorities" +
+                        " WHERE id = ?",
+                resultSet -> {
+                    String authority = resultSet.getString(this.authority);
+                    authorities.add(authority);
+                },
+                userId
+        );
+        String password = rawUser.get(this.password);
+        String username = rawUser.get(this.userName);
+        return authorities.isEmpty() ? null : new User(userId, username, password, authorities);
+    }
+
+    @Override
     public User findByUserName(final String username) {
         Map<String, String> rawUser = new ConcurrentHashMap<>();
         try {
@@ -90,4 +121,6 @@ public class DatabaseUsersRepository implements IUsersRepository {
         }
         return users;
     }
+
+
 }
