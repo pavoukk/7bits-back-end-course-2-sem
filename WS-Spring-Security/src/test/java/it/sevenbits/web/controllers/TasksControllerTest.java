@@ -86,7 +86,7 @@ public class TasksControllerTest {
 
     @Test
     public void findTaskByIdIncorrectId() {
-        String id = "id";
+        String id = "ID";
         ResponseEntity<Task> response = tasksController.findTaskById(id);
 
         assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());

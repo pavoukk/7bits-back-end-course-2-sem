@@ -1,9 +1,11 @@
 package it.sevenbits.core.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.util.Objects;
 
 /**
- * A model of a task. It has unique id, text of the task, status and when the task was created and updated.
+ * A model of a task. It has unique ID, text of the task, status and when the task was created and updated.
  */
 public class Task {
     private String id;
@@ -16,6 +18,9 @@ public class Task {
 
     private String updatedAt;
 
+    @JsonIgnore
+    private String owner;
+
     /**
      * A constructor with parameters.
      *
@@ -24,13 +29,20 @@ public class Task {
      * @param status    status of the task.
      * @param createdAt creation date.
      * @param updatedAt update date.
+     * @param owner an ID of task's owner.
      */
-    public Task(final String id, final String text, final String status, final String createdAt, final String updatedAt) {
+    public Task(final String id,
+                final String text,
+                final String status,
+                final String createdAt,
+                final String updatedAt,
+                final String owner) {
         this.id = id;
         this.text = text;
         this.status = status;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
+        this.owner = owner;
     }
 
     public String getId() {
@@ -51,6 +63,10 @@ public class Task {
 
     public String getUpdatedAt() {
         return updatedAt;
+    }
+
+    public String getOwner() {
+        return owner;
     }
 
     @Override

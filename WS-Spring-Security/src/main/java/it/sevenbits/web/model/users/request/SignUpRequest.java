@@ -6,23 +6,23 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import javax.validation.constraints.NotBlank;
 
 /**
- * A model for sign in request.
+ * A model for sign up request info.
  */
-public class SignInRequest {
+public class SignUpRequest {
     @NotBlank
     private String username;
+
     @NotBlank
     private String password;
 
     /**
-     * Request comes from json body.
+     * A constructor.
      *
-     * @param username a user's name.
-     * @param password a user's PASSWORD.
+     * @param username new user's username.
+     * @param password new user's PASSWORD.
      */
     @JsonCreator
-    public SignInRequest(final @JsonProperty("username") String username,
-                         final @JsonProperty("PASSWORD") String password) {
+    public SignUpRequest(@JsonProperty("username") final String username, @JsonProperty("PASSWORD") final String password) {
         this.username = username;
         this.password = password;
     }

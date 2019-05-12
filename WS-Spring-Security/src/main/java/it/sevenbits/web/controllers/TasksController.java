@@ -95,56 +95,56 @@ public class TasksController {
     }
 
     /**
-     * The method works with type GET. It returns a task that has the same id.
+     * The method works with type GET. It returns a task that has the same ID.
      *
-     * @param id the id of needed task.
+     * @param id the ID of needed task.
      * @return the task.
      */
     @RequestMapping
             (
                     method = RequestMethod.GET,
-                    value = "/{id}",
+                    value = "/{ID}",
                     produces = MediaType.APPLICATION_JSON_UTF8_VALUE
             )
     @ResponseBody
-    public ResponseEntity<Task> findTaskById(final @PathVariable(value = "id") String id) {
+    public ResponseEntity<Task> findTaskById(final @PathVariable(value = "ID") String id) {
         return tasksService.getTaskById(id);
     }
 
     /**
      * The method works with type PATCH. It updates an existing task.
      *
-     * @param id          the id of task to update.
+     * @param id          the ID of task to update.
      * @param taskRequest some info that is needed to update the task.
      * @return response status.
      */
     @RequestMapping
             (
                     method = RequestMethod.PATCH,
-                    value = "/{id}",
+                    value = "/{ID}",
                     consumes = MediaType.APPLICATION_JSON_UTF8_VALUE
             )
     @ResponseBody
     public ResponseEntity<?> updateTask(
-            final @PathVariable(value = "id") String id,
+            final @PathVariable(value = "ID") String id,
             final @RequestBody UpdateTaskRequest taskRequest
     ) {
         return tasksService.updateTask(id, taskRequest);
     }
 
     /**
-     * The method works with type DELETE. It deletes a task with the same id.
+     * The method works with type DELETE. It deletes a task with the same ID.
      *
-     * @param id the id of task to delete.
+     * @param id the ID of task to delete.
      * @return the deleted task.
      */
     @RequestMapping
             (
                     method = RequestMethod.DELETE,
-                    value = "/{id}"
+                    value = "/{ID}"
             )
     @ResponseBody
-    public ResponseEntity<?> removeTask(final @PathVariable(value = "id") String id) {
+    public ResponseEntity<?> removeTask(final @PathVariable(value = "ID") String id) {
         return tasksService.removeTask(id);
     }
 

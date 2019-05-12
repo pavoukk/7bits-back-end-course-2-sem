@@ -139,7 +139,7 @@ public class TasksService implements ITasksService {
         }
         String newText = text == null ? old.getText() : text;
         String newStatus = status == null ? old.getStatus() : status;
-        Task newTask = new Task(old.getId(), newText, newStatus, old.getCreatedAt(), old.getUpdatedAt());
+        Task newTask = new Task(old.getId(), newText, newStatus, old.getCreatedAt(), old.getUpdatedAt(), old.getOwner());
         tasksRepository.replace(id, newTask);
         return ResponseEntity
                 .noContent()

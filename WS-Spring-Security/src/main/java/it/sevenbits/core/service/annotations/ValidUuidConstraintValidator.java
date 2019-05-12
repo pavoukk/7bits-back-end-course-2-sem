@@ -5,7 +5,7 @@ import javax.validation.ConstraintValidatorContext;
 import java.util.regex.Pattern;
 
 /**
- * The uuid validator. It checks if the id is valid or not.
+ * The uuid validator. It checks if the ID is valid or not.
  */
 public class ValidUuidConstraintValidator implements ConstraintValidator<ValidUuid, String> {
     private Pattern pattern;

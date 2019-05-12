@@ -49,7 +49,8 @@ public final class HashMapTasksRepository implements ITasksRepository {
                 newTask.getText(),
                 newTask.getStatus(),
                 newTask.getCreatedAt(),
-                Timestamp.from(Instant.now(Clock.system(ZoneId.of("UTC")))).toString()
+                Timestamp.from(Instant.now(Clock.system(ZoneId.of("UTC")))).toString(),
+                null
         );
         tasks.replace(id, updatedTask);
     }
@@ -61,7 +62,8 @@ public final class HashMapTasksRepository implements ITasksRepository {
                 UUID.randomUUID().toString(),
                 taskRequest.getText(),
                 "inbox", timestamp.toString(),
-                timestamp.toString()
+                timestamp.toString(),
+                null
         );
         tasks.put(task.getId(), task);
         return task;

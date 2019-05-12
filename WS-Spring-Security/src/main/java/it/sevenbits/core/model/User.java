@@ -16,7 +16,7 @@ import java.util.List;
  */
 public class User {
 
-    @JsonProperty("id")
+    @JsonProperty("ID")
     private final String id;
     @NotBlank
     @JsonProperty("username")
@@ -33,10 +33,10 @@ public class User {
      * A constructor. Is needed to provide a work in users repository.
      *
      * @param username    a user's name.
-     * @param password    a user's password.
+     * @param password    a user's PASSWORD.
      * @param authorities user's roles. Are needed to decide whether
      *                    the user has access to some resources or has not.
-     * @param id          a user's id.
+     * @param id          a user's ID.
      */
     public User(final String id, final String username, final String password, final List<String> authorities) {
         this.username = username;
@@ -52,7 +52,7 @@ public class User {
      * @param username    user's name.
      * @param authorities user's roles. Are needed to decide whether
      *                    the user has access to some resources or has not.
-     * @param id          user's id.
+     * @param id          user's ID.
      */
     @JsonCreator
     public User(final String id, final String username, final List<String> authorities) {

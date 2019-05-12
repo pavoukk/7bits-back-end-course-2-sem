@@ -16,10 +16,10 @@ public class SignInService implements ISignInService {
     private final PasswordEncoder passwordEncoder;
 
     /**
-     * A constructor. Takes users repository and password encoder.
+     * A constructor. Takes users repository and PASSWORD encoder.
      *
      * @param users           a repository
-     * @param passwordEncoder a password encoder.
+     * @param passwordEncoder a PASSWORD encoder.
      */
     public SignInService(final IUsersRepository users, final PasswordEncoder passwordEncoder) {
         this.users = users;
@@ -36,7 +36,7 @@ public class SignInService implements ISignInService {
      */
     @Override
     public User signIn(final SignInRequest signInRequest) throws SignInFailedException {
-        User user = users.findByUserName(signInRequest.getUsername());
+        User user = users.findByUserName(signInRequest.getUsername(), true);
 
         if (user == null) {
             throw new SignInFailedException(
@@ -45,7 +45,7 @@ public class SignInService implements ISignInService {
         }
 
         if (!passwordEncoder.matches(signInRequest.getPassword(), user.getPassword())) {
-            throw new SignInFailedException("Wrong password");
+            throw new SignInFailedException("Wrong PASSWORD");
         }
 
         return new User(user.getId(), user.getUsername(), user.getAuthorities());

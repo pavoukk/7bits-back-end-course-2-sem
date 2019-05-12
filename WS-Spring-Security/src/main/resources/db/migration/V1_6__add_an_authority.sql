@@ -1,0 +1,1 @@
+INSERT INTO authorities (id, authority) VALUES('58acddc7-afe3-4171-b196-6223d54c46c8', 'USER');

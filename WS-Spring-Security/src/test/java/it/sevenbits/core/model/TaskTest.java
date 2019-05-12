@@ -16,7 +16,8 @@ public class TaskTest {
         String status = "inbox";
         String createdAt = "createdAt";
         String updatedAt = "updatedAt";
-        Task task = new Task(id, text, status, createdAt, updatedAt);
+        String owner = "owner";
+        Task task = new Task(id, text, status, createdAt, updatedAt, owner);
 
         assertEquals(id, task.getId());
         assertEquals(status, task.getStatus());
