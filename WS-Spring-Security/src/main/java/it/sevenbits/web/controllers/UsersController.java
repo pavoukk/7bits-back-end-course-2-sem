@@ -48,9 +48,9 @@ public class UsersController {
      * @param id a parameter to filter users.
      * @return user's info.
      */
-    @GetMapping(value = "/{ID}")
+    @GetMapping(value = "/{id}")
     @ResponseBody
-    public ResponseEntity<User> getUserInfo(@PathVariable("ID") final String id) {
+    public ResponseEntity<User> getUserInfo(@PathVariable("id") final String id) {
         return Optional
                 .ofNullable(usersRepository.findById(id, true))
                 .map(user -> ResponseEntity.ok().body(user))
@@ -60,13 +60,13 @@ public class UsersController {
     /**
      * The method updates user info.
      *
-     * @param id                an user's ID.
+     * @param id                an user's id.
      * @param updateUserRequest an update user request containing info to update.
      * @return a response containing a status code.
      */
-    @PatchMapping(value = "/{ID}")
+    @PatchMapping(value = "/{id}")
     @ResponseBody
-    public ResponseEntity<?> updateUserInfo(@PathVariable("ID") final String id, @RequestBody final UpdateUserRequest updateUserRequest) {
+    public ResponseEntity<?> updateUserInfo(@PathVariable("id") final String id, @RequestBody final UpdateUserRequest updateUserRequest) {
         return userService.updateUser(id, updateUserRequest);
     }
 

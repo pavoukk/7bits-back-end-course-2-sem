@@ -22,26 +22,26 @@ public interface ITasksService {
     ResponseEntity<GetTasksResponse> getTasks(String status, String order, int page, int size);
 
     /**
-     * The method returns a task with specified ID.
+     * The method returns a task with specified id.
      *
-     * @param id the ID.
+     * @param id the id.
      * @return needed task.
      */
     ResponseEntity<Task> getTaskById(String id);
 
     /**
-     * The method updates some task with specified ID using updateTaskRequest containing all needed info.
+     * The method updates some task with specified id using updateTaskRequest containing all needed info.
      *
-     * @param id                the ID.
+     * @param id                the id.
      * @param updateTaskRequest all the needed info.
      * @return a response with some status.
      */
     ResponseEntity<?> updateTask(String id, UpdateTaskRequest updateTaskRequest);
 
     /**
-     * Removes a task with specified ID.
+     * Removes a task with specified id.
      *
-     * @param id the ID.
+     * @param id the id.
      * @return a response with some status.
      */
     ResponseEntity<?> removeTask(String id);

@@ -18,7 +18,7 @@ public class SignInRequest {
      * Request comes from json body.
      *
      * @param username a user's name.
-     * @param password a user's PASSWORD.
+     * @param password a user's password.
      */
     @JsonCreator
     public SignInRequest(@JsonProperty("username") final String username,

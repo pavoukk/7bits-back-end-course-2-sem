@@ -27,7 +27,7 @@ public class DatabaseTasksRepositoryTest {
     public void setUp() {
         mockJdbcOperations = mock(JdbcOperations.class);
         WhoAmIService whoAmIServiceMock = mock(WhoAmIService.class);
-        when(whoAmIServiceMock.whoAmI()).thenReturn(new User("some ID", "username", "PASSWORD", null));
+        when(whoAmIServiceMock.whoAmI()).thenReturn(new User("some id", "username", "password", null));
 
         databaseTasksRepository = new DatabaseTasksRepository(mockJdbcOperations, whoAmIServiceMock);
     }
@@ -51,7 +51,7 @@ public class DatabaseTasksRepositoryTest {
         List<Task> response = databaseTasksRepository.getAllTasks(status, order, page, size);
 
         verify(mockJdbcOperations, times(1)).query(
-                eq("SELECT ID, task, status, created_at, updated_at, owner " +
+                eq("SELECT id, task, status, created_at, updated_at, owner " +
                         "FROM task WHERE status = ? AND owner = ? ORDER BY created_at DESC LIMIT ? OFFSET ?"),
                 any(RowMapper.class),
                 eq(status),
@@ -79,7 +79,7 @@ public class DatabaseTasksRepositoryTest {
         Task task = databaseTasksRepository.create(mockAddTaskRequest);
 
         verify(mockJdbcOperations, times(1)).update(
-                eq("INSERT INTO task (ID, task, status, created_at, updated_at, owner) VALUES (?, ?, ?, ?, ?, ?)"),
+                eq("INSERT INTO task (id, task, status, created_at, updated_at, owner) VALUES (?, ?, ?, ?, ?, ?)"),
                 eq(task.getId()),
                 eq("text"),
                 eq("inbox"),
@@ -94,7 +94,7 @@ public class DatabaseTasksRepositoryTest {
     @Test
     public void getTaskById() {
         Task mockTask = mock(Task.class);
-        String id = "ID";
+        String id = "id";
         when(mockJdbcOperations.queryForObject(
                 anyString(),
                 any(RowMapper.class),
@@ -104,7 +104,7 @@ public class DatabaseTasksRepositoryTest {
         Task task = databaseTasksRepository.getTaskById(id);
 
         verify(mockJdbcOperations, times(1)).queryForObject(
-                eq("SELECT ID, task, status, created_at, updated_at, owner FROM task WHERE ID = ? AND owner = ?"),
+                eq("SELECT id, task, status, created_at, updated_at, owner FROM task WHERE id = ? AND owner = ?"),
                 any(RowMapper.class),
                 eq(id),
                 anyString());
@@ -125,12 +125,12 @@ public class DatabaseTasksRepositoryTest {
                 any(Timestamp.class),
                 anyString())).thenReturn(1);
 
-        String id = "ID";
+        String id = "id";
         databaseTasksRepository.replace(id, mockTask);
 
 
         verify(mockJdbcOperations, times(1)).update(
-                eq("UPDATE task SET task = ?, status = ?, updated_at = ? WHERE ID = ? AND owner = ?"),
+                eq("UPDATE task SET task = ?, status = ?, updated_at = ? WHERE id = ? AND owner = ?"),
                 eq(text),
                 eq(status),
                 any(Timestamp.class),
@@ -140,7 +140,7 @@ public class DatabaseTasksRepositoryTest {
 
     @Test
     public void removeTask() {
-        String id = "ID";
+        String id = "id";
         Task mockTask = mock(Task.class);
         when(mockJdbcOperations.queryForObject(
                 anyString(),
@@ -157,7 +157,7 @@ public class DatabaseTasksRepositoryTest {
 
         Task task = databaseTasksRepository.removeTask(id);
         verify(mockJdbcOperations, times(1)).update(
-                eq("DELETE FROM task WHERE ID = ? AND owner = ?"),
+                eq("DELETE FROM task WHERE id = ? AND owner = ?"),
                 eq(id),
                 anyString());
         assertEquals(mockTask, task);

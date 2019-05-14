@@ -19,10 +19,10 @@ public class SignUpRequest {
      * A constructor.
      *
      * @param username new user's username.
-     * @param password new user's PASSWORD.
+     * @param password new user's password.
      */
     @JsonCreator
-    public SignUpRequest(@JsonProperty("username") final String username, @JsonProperty("PASSWORD") final String password) {
+    public SignUpRequest(@JsonProperty("username") final String username, @JsonProperty("password") final String password) {
         this.username = username;
         this.password = password;
     }

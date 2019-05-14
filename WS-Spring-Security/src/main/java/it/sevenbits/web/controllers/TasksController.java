@@ -91,9 +91,9 @@ public class TasksController {
     }
 
     /**
-     * The method works with type GET. It returns a task that has the same ID.
+     * The method works with type GET. It returns a task that has the same id.
      *
-     * @param id the ID of needed task.
+     * @param id the id of needed task.
      * @return the task.
      */
     @RequestMapping
@@ -110,7 +110,7 @@ public class TasksController {
     /**
      * The method works with type PATCH. It updates an existing task.
      *
-     * @param id          the ID of task to update.
+     * @param id          the id of task to update.
      * @param taskRequest some info that is needed to update the task.
      * @return response status.
      */
@@ -129,9 +129,9 @@ public class TasksController {
     }
 
     /**
-     * The method works with type DELETE. It deletes a task with the same ID.
+     * The method works with type DELETE. It deletes a task with the same id.
      *
-     * @param id the ID of task to delete.
+     * @param id the id of task to delete.
      * @return the deleted task.
      */
     @RequestMapping

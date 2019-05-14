@@ -9,7 +9,7 @@ import org.springframework.http.ResponseEntity;
 public interface IUserService {
     /**
      * The method updates user info.
-     * @param id user's ID.
+     * @param id user's id.
      * @param updateUserRequest a request with info to update.
      * @return some response containing status code.
      */
