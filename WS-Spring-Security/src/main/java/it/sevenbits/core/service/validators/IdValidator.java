@@ -3,7 +3,7 @@ package it.sevenbits.core.service.validators;
 import java.util.regex.Pattern;
 
 /**
- * The class is used to check if ID suits the UUID style or not.
+ * The class is used to check if id suits the UUID style or not.
  */
 public class IdValidator  implements IValidator <String> {
     private Pattern pattern;

@@ -18,7 +18,7 @@ public class UpdateTaskRequest {
      * @param status is a status of the task.
      */
     @JsonCreator
-    public UpdateTaskRequest(final @JsonProperty("text") String text, final @JsonProperty("status") String status) {
+    public UpdateTaskRequest(@JsonProperty("text") final String text, @JsonProperty("status") final String status) {
         this.status = status;
         this.text = text;
     }

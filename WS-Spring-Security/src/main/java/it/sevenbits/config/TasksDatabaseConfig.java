@@ -37,7 +37,7 @@ public class TasksDatabaseConfig {
      */
     @Bean
     @Qualifier("tasksJdbcOperations")
-    public JdbcOperations tasksJdbcOperations(final @Qualifier("tasksDataSource") DataSource tasksDataSource) {
+    public JdbcOperations tasksJdbcOperations(@Qualifier("tasksDataSource") final DataSource tasksDataSource) {
         return new JdbcTemplate(tasksDataSource);
     }
 }

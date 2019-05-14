@@ -29,7 +29,7 @@ public class Task {
      * @param status    status of the task.
      * @param createdAt creation date.
      * @param updatedAt update date.
-     * @param owner an ID of task's owner.
+     * @param owner an id of task's owner.
      */
     public Task(final String id,
                 final String text,

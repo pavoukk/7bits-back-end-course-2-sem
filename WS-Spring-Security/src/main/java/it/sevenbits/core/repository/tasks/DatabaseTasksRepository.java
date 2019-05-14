@@ -44,7 +44,7 @@ public class DatabaseTasksRepository implements ITasksRepository {
             @Override
             public Task mapRow(final ResultSet resultSet, final int i) throws SQLException {
                 return new Task(
-                        resultSet.getString("ID"),
+                        resultSet.getString("id"),
                         resultSet.getString("task"),
                         resultSet.getString("status"),
                         resultSet.getString("created_at"),
@@ -54,9 +54,9 @@ public class DatabaseTasksRepository implements ITasksRepository {
             }
         };
         orderRequests = new ConcurrentHashMap<>();
-        orderRequests.put("ASC", "SELECT ID, task, status, created_at, updated_at, owner " +
+        orderRequests.put("ASC", "SELECT id, task, status, created_at, updated_at, owner " +
                 "FROM task WHERE status = ? AND owner = ? ORDER BY created_at ASC LIMIT ? OFFSET ?");
-        orderRequests.put("DESC", "SELECT ID, task, status, created_at, updated_at, owner " +
+        orderRequests.put("DESC", "SELECT id, task, status, created_at, updated_at, owner " +
                 "FROM task WHERE status = ? AND owner = ? ORDER BY created_at DESC LIMIT ? OFFSET ?");
     }
 
@@ -85,7 +85,7 @@ public class DatabaseTasksRepository implements ITasksRepository {
 
         String userId = whoAmIService.whoAmI().getId();
         jdbcOperations.update(
-                "INSERT INTO task (ID, task, status, created_at, updated_at, owner) VALUES (?, ?, ?, ?, ?, ?)",
+                "INSERT INTO task (id, task, status, created_at, updated_at, owner) VALUES (?, ?, ?, ?, ?, ?)",
                 id,
                 text,
                 status,
@@ -100,7 +100,7 @@ public class DatabaseTasksRepository implements ITasksRepository {
     public Task getTaskById(final String id) {
         try {
             return jdbcOperations.queryForObject(
-                    "SELECT ID, task, status, created_at, updated_at, owner FROM task WHERE ID = ? AND owner = ?",
+                    "SELECT id, task, status, created_at, updated_at, owner FROM task WHERE id = ? AND owner = ?",
                     rowMapper,
                     id,
                     whoAmIService.whoAmI().getId()
@@ -112,7 +112,7 @@ public class DatabaseTasksRepository implements ITasksRepository {
 
     @Override
     public void replace(final String id, final Task newTask) {
-        jdbcOperations.update("UPDATE task SET task = ?, status = ?, updated_at = ? WHERE ID = ? AND owner = ?",
+        jdbcOperations.update("UPDATE task SET task = ?, status = ?, updated_at = ? WHERE id = ? AND owner = ?",
                 newTask.getText(),
                 newTask.getStatus(),
                 Timestamp.from(Instant.now(Clock.system(ZoneId.of("UTC")))),
@@ -125,7 +125,7 @@ public class DatabaseTasksRepository implements ITasksRepository {
     public Task removeTask(final String id) {
         Task task = getTaskById(id);
         int rows = jdbcOperations.update(
-                "DELETE FROM task WHERE ID = ? AND owner = ?",
+                "DELETE FROM task WHERE id = ? AND owner = ?",
                 id,
                 whoAmIService.whoAmI().getId());
         if (rows != 0) {

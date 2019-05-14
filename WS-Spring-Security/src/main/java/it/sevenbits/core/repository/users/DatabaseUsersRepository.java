@@ -20,10 +20,22 @@ import java.util.UUID;
  */
 public class DatabaseUsersRepository implements IUsersRepository {
     private final JdbcOperations jdbcOperations;
-    public static final String AUTHORITY = "AUTHORITY";
+    /**
+     * A constant value for authority.
+     */
+    public static final String AUTHORITY = "authority";
+    /**
+     * A constant value for username.
+     */
     public static final String USERNAME = "username";
-    public static final String PASSWORD = "PASSWORD";
-    public static final String ID = "ID";
+    /**
+     * A constant value for password.
+     */
+    public static final String PASSWORD = "password";
+    /**
+     * A constant value for id.
+     */
+    public static final String ID = "id";
 
     /**
      * A constructor. Gets JdbcOperations object to work with database.
@@ -40,8 +52,8 @@ public class DatabaseUsersRepository implements IUsersRepository {
         Map<String, Object> rawUser;
         try {
             rawUser = jdbcOperations.queryForMap(
-                    "SELECT ID, username, PASSWORD FROM users" +
-                            " WHERE enabled = ? AND ID = ?",
+                    "SELECT id, username, password FROM users" +
+                            " WHERE enabled = ? AND id = ?",
                     enabled, userId);
         } catch (IncorrectResultSizeDataAccessException e) {
             return null;
@@ -49,8 +61,8 @@ public class DatabaseUsersRepository implements IUsersRepository {
 
         List<String> authorities;
         authorities = jdbcOperations.query(
-                "SELECT ID, AUTHORITY FROM authorities" +
-                        " WHERE ID = ?",
+                "SELECT id, authority FROM authorities" +
+                        " WHERE id = ?",
                 new RowMapper<String>() {
                     @Override
                     public String mapRow(final ResultSet resultSet, final int i) throws SQLException {
@@ -69,7 +81,7 @@ public class DatabaseUsersRepository implements IUsersRepository {
         Map<String, Object> rawUser = new ConcurrentHashMap<>();
         try {
             rawUser = jdbcOperations.queryForMap(
-                    "SELECT ID, username, PASSWORD FROM users" +
+                    "SELECT id, username, password FROM users" +
                             " WHERE enabled = ? AND username = ?",
                     enabled,
                     username);
@@ -80,8 +92,8 @@ public class DatabaseUsersRepository implements IUsersRepository {
         String userId = (String) rawUser.get(DatabaseUsersRepository.ID);
         List<String> authorities;
         authorities = jdbcOperations.query(
-                "SELECT ID, AUTHORITY FROM authorities" +
-                        " WHERE ID = ?",
+                "SELECT id, authority FROM authorities" +
+                        " WHERE id = ?",
                 new RowMapper<String>() {
                     @Override
                     public String mapRow(final ResultSet resultSet, final int i) throws SQLException {
@@ -100,7 +112,7 @@ public class DatabaseUsersRepository implements IUsersRepository {
         List<User> users = Collections.synchronizedList(new ArrayList<>());
         Map<String, String> rawUser = new ConcurrentHashMap<>();
         Map<String, String> userId = new ConcurrentHashMap<>();
-        jdbcOperations.query("SELECT ID, username, PASSWORD FROM users " +
+        jdbcOperations.query("SELECT id, username, password FROM users " +
                 "WHERE enabled = true", new RowMapper<Object>() {
             @Override
             public Object mapRow(final ResultSet resultSet, final int i) throws SQLException {
@@ -117,8 +129,8 @@ public class DatabaseUsersRepository implements IUsersRepository {
 
         for (String username : rawUser.keySet()) {
             List<String> authorities = new ArrayList<>();
-            jdbcOperations.query("SELECT ID, AUTHORITY FROM authorities " +
-                    "WHERE ID = ?", new RowMapper<Object>() {
+            jdbcOperations.query("SELECT id, authority FROM authorities " +
+                    "WHERE id = ?", new RowMapper<Object>() {
                 @Override
                 public String mapRow(final ResultSet resultSet, final int i) throws SQLException {
                     String authority = resultSet.getString(DatabaseUsersRepository.AUTHORITY);
@@ -142,13 +154,13 @@ public class DatabaseUsersRepository implements IUsersRepository {
         }
 
         if (enabled != null) {
-            jdbcOperations.update("UPDATE users SET enabled = ? WHERE ID = ?", enabled, userId);
+            jdbcOperations.update("UPDATE users SET enabled = ? WHERE id = ?", enabled, userId);
         }
 
         if (authorities != null && !authorities.isEmpty()) {
-            jdbcOperations.update("DELETE FROM authorities WHERE ID = ?", userId);
+            jdbcOperations.update("DELETE FROM authorities WHERE id = ?", userId);
             for (String el : authorities) {
-                jdbcOperations.update("INSERT INTO authorities (ID, AUTHORITY) VALUES(?, ?)", userId, el);
+                jdbcOperations.update("INSERT INTO authorities (id, authority) VALUES(?, ?)", userId, el);
             }
         }
     }
@@ -159,9 +171,9 @@ public class DatabaseUsersRepository implements IUsersRepository {
             throw new UserRepositoryException("The user already exists");
         }
         String userId = UUID.randomUUID().toString();
-        jdbcOperations.update("INSERT INTO users (username, PASSWORD, enabled, ID) VALUES(?, ?, ?, ?)",
+        jdbcOperations.update("INSERT INTO users (username, password, enabled, id) VALUES(?, ?, ?, ?)",
                 username, userPassword, true, userId);
-        jdbcOperations.update("INSERT INTO authorities (AUTHORITY, ID) VALUES(?, ?)", "USER", userId);
+        jdbcOperations.update("INSERT INTO authorities (authority, id) VALUES(?, ?)", "USER", userId);
     }
 
 

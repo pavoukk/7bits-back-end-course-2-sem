@@ -46,14 +46,14 @@ public class DatabaseUsersRepositoryTest {
         String id = UUID.randomUUID().toString();
         usersRepository.findById(id, true);
         Mockito.verify(jdbcOperationsMock, Mockito.times(1)).queryForMap(
-                Mockito.eq("SELECT ID, username, PASSWORD FROM users" +
-                        " WHERE enabled = ? AND ID = ?"),
+                Mockito.eq("SELECT id, username, password FROM users" +
+                        " WHERE enabled = ? AND id = ?"),
                 anyBoolean(),
                 anyString()
         );
         Mockito.verify(jdbcOperationsMock, Mockito.times(1)).query(
-                Mockito.eq("SELECT ID, AUTHORITY FROM authorities" +
-                        " WHERE ID = ?"),
+                Mockito.eq("SELECT id, authority FROM authorities" +
+                        " WHERE id = ?"),
                 any(RowMapper.class),
                 anyString()
         );
@@ -64,22 +64,22 @@ public class DatabaseUsersRepositoryTest {
         String username = "username";
         Map<String, Object> properties = new HashMap<>();
         properties.put("username", "username");
-        properties.put("PASSWORD", "PASSWORD");
-        properties.put("ID", UUID.randomUUID().toString());
+        properties.put("password", "password");
+        properties.put("id", UUID.randomUUID().toString());
 
         Mockito.when(jdbcOperationsMock.queryForMap(anyString(), anyBoolean(), anyString())).thenReturn(properties);
         usersRepository.findByUserName(username, true);
 
         Mockito.verify(jdbcOperationsMock, Mockito.times(1)).queryForMap(
-                Mockito.eq("SELECT ID, username, PASSWORD FROM users" +
+                Mockito.eq("SELECT id, username, password FROM users" +
                         " WHERE enabled = ? AND username = ?"),
                 anyBoolean(),
                 anyString()
         );
 
         Mockito.verify(jdbcOperationsMock, Mockito.times(1)).query(
-                Mockito.eq("SELECT ID, AUTHORITY FROM authorities" +
-                        " WHERE ID = ?"),
+                Mockito.eq("SELECT id, authority FROM authorities" +
+                        " WHERE id = ?"),
                 any(RowMapper.class),
                 anyString()
         );
@@ -89,9 +89,9 @@ public class DatabaseUsersRepositoryTest {
     public void updateUserTest() {
         String userId = UUID.randomUUID().toString();
         Map<String, Object> rawUser = new HashMap<>();
-        rawUser.put("ID", userId);
+        rawUser.put("id", userId);
         rawUser.put("username", "username");
-        rawUser.put("PASSWORD", "PASSWORD");
+        rawUser.put("password", "password");
         Mockito.when(jdbcOperationsMock.queryForMap(anyString(), anyBoolean(), anyString()))
                 .thenReturn(rawUser);
 
@@ -107,16 +107,16 @@ public class DatabaseUsersRepositoryTest {
             fail();
         }
         Mockito.verify(jdbcOperationsMock, Mockito.times(1)).update(
-                Mockito.eq("UPDATE users SET enabled = ? WHERE ID = ?"),
+                Mockito.eq("UPDATE users SET enabled = ? WHERE id = ?"),
                 Mockito.eq(enabled),
                 Mockito.eq(userId));
 
         Mockito.verify(jdbcOperationsMock, Mockito.times(1)).update(
-                Mockito.eq("DELETE FROM authorities WHERE ID = ?"),
+                Mockito.eq("DELETE FROM authorities WHERE id = ?"),
                 Mockito.eq(userId));
 
         Mockito.verify(jdbcOperationsMock, Mockito.times(1)).update(
-                Mockito.eq("INSERT INTO authorities (ID, AUTHORITY) VALUES(?, ?)"),
+                Mockito.eq("INSERT INTO authorities (id, authority) VALUES(?, ?)"),
                 Mockito.eq(userId),
                 Mockito.eq(authorities.get(0))
         );
@@ -125,21 +125,21 @@ public class DatabaseUsersRepositoryTest {
     @Test
     public void createANewUserTest() {
         String username = "username";
-        String password = "PASSWORD";
+        String password = "password";
         try {
             usersRepository.createANewUser(username, password);
         } catch (UserRepositoryException e) {
             fail();
         }
         Mockito.verify(jdbcOperationsMock, Mockito.times(1)).update(
-                Mockito.eq("INSERT INTO users (username, PASSWORD, enabled, ID) VALUES(?, ?, ?, ?)"),
+                Mockito.eq("INSERT INTO users (username, password, enabled, id) VALUES(?, ?, ?, ?)"),
                 Mockito.eq(username),
                 Mockito.eq(password),
                 anyBoolean(),
                 anyString());
 
         Mockito.verify(jdbcOperationsMock, Mockito.times(1)).update(
-                Mockito.eq("INSERT INTO authorities (AUTHORITY, ID) VALUES(?, ?)"),
+                Mockito.eq("INSERT INTO authorities (authority, id) VALUES(?, ?)"),
                 Mockito.eq("USER"),
                 anyString());
     }

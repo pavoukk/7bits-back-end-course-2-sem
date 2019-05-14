@@ -43,7 +43,7 @@ public class SignInController {
      */
     @PostMapping
     @ResponseBody
-    public ResponseEntity<SignInResponse> create(final @RequestBody SignInRequest request) {
+    public ResponseEntity<SignInResponse> create(@RequestBody final SignInRequest request) {
         User user = null;
 
         try {

@@ -1,5 +1,5 @@
-# Spring Security Workshop.
-This project is a little courses work. It is a part of a big homework.
+# Spring Security Homework.
+This project is a 7bits courses work. It's a simple task manager :)
 ## Getting Started.
 To start the project, you surely need:
 - OpenJDK version 1.8 or later
@@ -15,7 +15,7 @@ All you need is to:
 ```
 Git clone https://github.com/pavoukk/7bits-back-end-course-2-sem.git
 ```
-The repository has lots of other projects and versions of the project. You need to go to a folder with a name "WS-Spring-Security".
+The repository has lots of other projects and versions of the project. You need to go to a folder with a name "HW-Spring-Security".
 - Create a package. Open console in the folder and use this command:
 ```
 mvn package
@@ -26,4 +26,4 @@ cd ./target/
 ```
 - Run the project using command:
 ```
-java -jar workshop-9-spring-security-1.0-SNAPSHOT.jar
+java -jar homework-5-spring-security-1.0-SNAPSHOT.jar

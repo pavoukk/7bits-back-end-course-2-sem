@@ -37,12 +37,12 @@ public interface ITasksRepository {
      * The method gets task by identificator.
      *
      * @param id is an identificator.
-     * @return a task that has the same ID.
+     * @return a task that has the same id.
      */
     Task getTaskById(String id);
 
     /**
-     * The method replaces some old task with the same ID to newTask.
+     * The method replaces some old task with the same id to newTask.
      *
      * @param id      is used to find the old task.
      * @param newTask is the new task replacing the old one.
@@ -50,7 +50,7 @@ public interface ITasksRepository {
     void replace(String id, Task newTask);
 
     /**
-     * The method removes a task with the same ID.
+     * The method removes a task with the same id.
      *
      * @param id is used to remove the task
      * @return the removed task

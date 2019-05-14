@@ -1,4 +1,4 @@
-package it.sevenbits.core.repository;
+package it.sevenbits.core.repository.tasks;
 
 import it.sevenbits.core.model.Task;
 import it.sevenbits.core.model.User;

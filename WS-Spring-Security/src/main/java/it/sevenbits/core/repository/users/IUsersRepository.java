@@ -10,9 +10,9 @@ import java.util.List;
  */
 public interface IUsersRepository {
     /**
-     * The method searches for a user that has the same ID.
+     * The method searches for a user that has the same id.
      *
-     * @param id      the ID.
+     * @param id      the id.
      * @param enabled is an account status.
      * @return some user if exists.
      */
@@ -37,7 +37,7 @@ public interface IUsersRepository {
     /**
      * The method updates user info.
      *
-     * @param userId      is an user's ID.
+     * @param userId      is an user's id.
      * @param enabled     is an account status.
      * @param authorities is a list of user's authorities.
      * @throws UserRepositoryException if something goes wrong, for example the user doesn't exist.
@@ -48,7 +48,7 @@ public interface IUsersRepository {
      * The method creates a new user.
      *
      * @param username     a new username.
-     * @param userPassword a new PASSWORD.
+     * @param userPassword a new password.
      * @throws UserRepositoryException if something goes wrong, for example the user already exists.
      */
     void createANewUser(String username, String userPassword) throws UserRepositoryException;

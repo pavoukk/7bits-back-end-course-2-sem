@@ -21,8 +21,8 @@ public class SignInRequest {
      * @param password a user's PASSWORD.
      */
     @JsonCreator
-    public SignInRequest(final @JsonProperty("username") String username,
-                         final @JsonProperty("PASSWORD") String password) {
+    public SignInRequest(@JsonProperty("username") final String username,
+                         @JsonProperty("password")final String password) {
         this.username = username;
         this.password = password;
     }

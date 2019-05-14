@@ -28,8 +28,6 @@ import javax.validation.Valid;
 public class TasksController {
     private final ITasksRepository tasksRepository;
     private ITasksService tasksService;
-//    private final IdValidator idValidator;
-//    private StatusValidator statusValidator;
 
     /**
      * A constructor with one parameter.
@@ -39,8 +37,6 @@ public class TasksController {
      */
     public TasksController(final ITasksRepository tasksRepository, final MetaDataDefault metaDataDefault) {
         this.tasksRepository = tasksRepository;
-//        idValidator = new IdValidator();
-//        statusValidator = new StatusValidator();
         tasksService = new TasksService(tasksRepository, metaDataDefault);
     }
 
@@ -56,21 +52,21 @@ public class TasksController {
     @RequestMapping(method = RequestMethod.GET)
     @ResponseBody
     public ResponseEntity<GetTasksResponse> getList(
-            final @RequestParam(
+            @RequestParam(
                     value = "status",
-                    required = false) String status,
-            final @RequestParam(
+                    required = false) final String status,
+            @RequestParam(
                     value = "order",
                     required = false
-            ) String order,
-            final @RequestParam(
+            ) final String order,
+            @RequestParam(
                     value = "page",
                     required = false
-            ) String page,
-            final @RequestParam(
+            ) final String page,
+            @RequestParam(
                     value = "size",
                     required = false
-            ) String size
+            ) final String size
     ) {
         int pageArg = page == null || page.isEmpty() ? 0 : Integer.valueOf(page);
         int sizeArg = size == null || size.isEmpty() ? 0 : Integer.valueOf(size);
@@ -90,7 +86,7 @@ public class TasksController {
                     produces = MediaType.APPLICATION_JSON_UTF8_VALUE
             )
     @ResponseBody
-    public ResponseEntity<?> create(final @RequestBody @Valid AddTaskRequest taskRequest) {
+    public ResponseEntity<?> create(@RequestBody @Valid final AddTaskRequest taskRequest) {
         return tasksService.createtask(taskRequest);
     }
 
@@ -103,11 +99,11 @@ public class TasksController {
     @RequestMapping
             (
                     method = RequestMethod.GET,
-                    value = "/{ID}",
+                    value = "/{id}",
                     produces = MediaType.APPLICATION_JSON_UTF8_VALUE
             )
     @ResponseBody
-    public ResponseEntity<Task> findTaskById(final @PathVariable(value = "ID") String id) {
+    public ResponseEntity<Task> findTaskById(@PathVariable(value = "id") final String id) {
         return tasksService.getTaskById(id);
     }
 
@@ -121,13 +117,13 @@ public class TasksController {
     @RequestMapping
             (
                     method = RequestMethod.PATCH,
-                    value = "/{ID}",
+                    value = "/{id}",
                     consumes = MediaType.APPLICATION_JSON_UTF8_VALUE
             )
     @ResponseBody
     public ResponseEntity<?> updateTask(
-            final @PathVariable(value = "ID") String id,
-            final @RequestBody UpdateTaskRequest taskRequest
+            @PathVariable(value = "id") final String id,
+            @RequestBody final UpdateTaskRequest taskRequest
     ) {
         return tasksService.updateTask(id, taskRequest);
     }
@@ -141,10 +137,10 @@ public class TasksController {
     @RequestMapping
             (
                     method = RequestMethod.DELETE,
-                    value = "/{ID}"
+                    value = "/{id}"
             )
     @ResponseBody
-    public ResponseEntity<?> removeTask(final @PathVariable(value = "ID") String id) {
+    public ResponseEntity<?> removeTask(@PathVariable(value = "id") final String id) {
         return tasksService.removeTask(id);
     }
 
