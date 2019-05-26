@@ -9,15 +9,17 @@ spring:
       username: fokina
       password: password
       driver-class-name: org.postgresql.Driver
+  profiles:
+    active: console-and-file-logging
+
 jwt:
   issuer: 'tatianamezzanine@gmail.com'
   signingKey: 'ahojabeceda911cz1e7r7'
   aTokenDuration: 30
 logging:
-  level:
-    root: INFO
-    org.springframework.web: INFO
-    it.sevenbits.web.security.JsonWebTokenService: DEBUG
+    path: logs
+    file: logs.log
+
 default:
   status: inbox
   order: desc
@@ -32,3 +34,5 @@ query:
   page: page
   size: size
   main-path: /tasks
+app:
+  name: 'hw-spring-security'
